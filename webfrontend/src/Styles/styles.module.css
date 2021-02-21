@@ -1,0 +1,17 @@
+
+.formButton{
+    float: right;
+}
+
+.formText{
+    font-size: 1rem;
+}
+
+.formLinkText{
+    font-size: 1rem;
+    color:red;
+}
+
+.formLinkText:hover {
+    color: rgb(233, 116, 116);
+}

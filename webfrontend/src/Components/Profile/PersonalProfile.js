@@ -17,14 +17,31 @@ import {
   Label,
   Input
 } from "react-bootstrap";
+import { backendIp, backendPort } from "../../config";
+
+const hostAddress = `${backendIp}:${backendPort}`;
+const config = {
+  headers: {
+    Authorization: "Bearer " + localStorage.getItem("jwtToken"),
+    "Content-Type": "application/json"
+  }
+};
 
 class PersonalProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
-      user: "",
-      editPassword: "",
+      email: localStorage.getItem("email"),
+      userId: localStorage.getItem("userId"),
+      firstName: "",
+      lastName: "",
+      contact: "",
+      address1: "",
+      address2: "",
+      city: "",
+      state: "",
+      zipcode: "",
+      country: "",
       editFirstName: "",
       editLastName: "",
       editContact: "",
@@ -34,16 +51,36 @@ class PersonalProfile extends React.Component {
       editState: "",
       editZipcode: "",
       editCountry: "",
+      editPassword: "",
+      confirmEditPassword: "",
       editModalIsOpen: false
     };
     this.handleClose = this.handleClose.bind(this);
   }
 
   componentWillMount = async () => {
-    axios.defaults.withCredentials = true;
-    const data = {
-      email: localStorage.getItem("email")
-    };
+    if (this.state.userId) {
+      axios.defaults.withCredentials = true;
+      axios
+        .get(
+          hostAddress + "/profile/personalProfile/" + this.state.userId,
+          config
+        )
+        .then(response => {
+          console.log(response);
+          this.setState({
+            firstName: response.data.firstName,
+            lastName: response.data.lastName,
+            contact: response.data.contact,
+            address1: response.data.addressLine1,
+            address2: response.data.addressLine2,
+            city: response.data.city,
+            state: response.data.state,
+            zipcode: response.data.zipcode,
+            country: response.data.country,
+          });
+        });
+    }
     //backend call to get details for object user
   };
 
@@ -65,8 +102,42 @@ class PersonalProfile extends React.Component {
     });
   };
 
-  editProfile = () => {
+  editProfile = e => {
     //Code to edit in backend
+    e.preventDefault();
+    if((this.state.editPassword!= "") && (this.state.confirmEditPassword != this.state.editPassword)){
+      alert("Passwords do not not match!")
+    } else{
+      const data = {
+        userId: this.state.userId,
+        firstName: (this.state.editFirstName == "") ? this.state.firstName : this.state.editFirstName,
+        lastName: (this.state.editLastName == "") ? this.state.lastName : this.state.editLastName,
+        contact: (this.state.editContact == "") ? this.state.contact : this.state.editContact,
+        addressLine1: (this.state.editAddress1 == "") ? this.state.address1 : this.state.editAddress1,
+        addressLine2: (this.state.editAddress2 == "") ? this.state.address2 : this.state.editAddress2,
+        city: (this.state.editCity == "") ? this.state.city : this.state.editCity,
+        state: (this.state.editState == "") ? this.state.state : this.state.editState,
+        zipcode: (this.state.editZipcode == "") ? this.state.zipcode : this.state.editZipcode,
+        country: (this.state.editCountry == "") ? this.state.country : this.state.editCountry,
+        password: this.state.editPassword 
+      };
+
+      console.log(data);
+      axios.defaults.withCredentials = true;
+      axios
+        .post(hostAddress + "/profile/updatePersonalProfile", data, config)
+        .then(response => {
+          console.log(response.data);
+          if (response.status == 200) {
+            alert("Updated Successfully");
+            console.log("Response data after  post-->" + response.data);
+            window.location.reload();
+          } else {
+            window.alert("Could Not Update Data!");
+          }
+        });
+    }
+
   };
 
   render() {
@@ -76,17 +147,22 @@ class PersonalProfile extends React.Component {
     modalContent = (
       <Form>
         <Form.Row>
-          <Form.Group as={Col} controlId="email">
-            <Form.Label>Email</Form.Label>
-            <Form.Text type="email" value={this.state.email} name="email" />
-          </Form.Group>
-
-          <Form.Group as={Col} controlId="editPassword">
+        <Form.Group as={Col} controlId="editPassword">
             <Form.Label>Password</Form.Label>
             <Form.Control
               type="password"
-              placeholder="Password"
+              placeholder="*******"
               name="editPassword"
+              onChange={this.inputChangeHandler}
+            />
+          </Form.Group>
+
+          <Form.Group as={Col} controlId="confirmEditPassword">
+            <Form.Label>Confirm Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="*******"
+              name="confirmEditPassword"
               onChange={this.inputChangeHandler}
             />
           </Form.Group>
@@ -97,7 +173,7 @@ class PersonalProfile extends React.Component {
             <Form.Label>First Name</Form.Label>
             <Form.Control
               type="text"
-              placeholder="First Name"
+              placeholder={this.state.firstName}
               name="editFirstName"
               onChange={this.inputChangeHandler}
             />
@@ -107,7 +183,7 @@ class PersonalProfile extends React.Component {
             <Form.Label>Last Name</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Last Name"
+              placeholder={this.state.lastName}
               name="editLastName"
               onChange={this.inputChangeHandler}
             />
@@ -119,7 +195,7 @@ class PersonalProfile extends React.Component {
           <Form.Label>Mobile</Form.Label>
           <Form.Control
             type="number"
-            placeholder="6695657890"
+            placeholder={this.state.contact}
             name="editContact"
             onChange={this.inputChangeHandler}
           />
@@ -128,7 +204,7 @@ class PersonalProfile extends React.Component {
           <Form.Label>Country</Form.Label>
           <Form.Control
             type="text"
-            placeholder="USA"
+            placeholder={this.state.country}
             name="editCountry"
             onChange={this.inputChangeHandler}
           />
@@ -138,7 +214,7 @@ class PersonalProfile extends React.Component {
         <Form.Group controlId="editAddress1">
           <Form.Label>Address Line 1</Form.Label>
           <Form.Control
-            placeholder="1234 Main St"
+            placeholder={this.state.address1}
             name="editAddress1"
             onChange={this.inputChangeHandler}
           />
@@ -147,7 +223,7 @@ class PersonalProfile extends React.Component {
         <Form.Group controlId="editAddress2">
           <Form.Label>Address Line 2</Form.Label>
           <Form.Control
-            placeholder="Apartment, studio, or floor"
+            placeholder={this.state.address2}
             name="editAddress2"
             onChange={this.inputChangeHandler}
           />
@@ -157,7 +233,7 @@ class PersonalProfile extends React.Component {
           <Form.Group as={Col} controlId="editCity">
             <Form.Label>City</Form.Label>
             <Form.Control
-              placeholder="San Jose"
+              placeholder={this.state.city}
               name="editCity"
               onChange={this.inputChangeHandler}
             />
@@ -166,7 +242,7 @@ class PersonalProfile extends React.Component {
           <Form.Group as={Col} controlId="editState">
             <Form.Label>State</Form.Label>
             <Form.Control
-              placeholder="California"
+              placeholder={this.state.state}
               name="editState"
               onChange={this.inputChangeHandler}
             />
@@ -176,7 +252,7 @@ class PersonalProfile extends React.Component {
             <Form.Label>Zip</Form.Label>
             <Form.Control
               type="number"
-              placeholder="95126"
+              placeholder={this.state.zipcode}
               name="editZipcode"
               onChange={this.inputChangeHandler}
             />
@@ -207,7 +283,7 @@ class PersonalProfile extends React.Component {
               }}
             ></i>
             <span>
-              <b>Full Name</b> {}{" "}
+              <b>Full Name</b> {}{" "} {this.state.firstName} {" "} {this.state.lastName}
             </span>
           </Col>
           <Col>
@@ -220,7 +296,7 @@ class PersonalProfile extends React.Component {
                 color: "rgb(233, 116, 116)"
               }}
             ></i>
-            <b>Mobile</b>
+            <b>Mobile</b> {" "}{this.state.contact}
           </Col>
         </Row>
         <Row>
@@ -234,7 +310,7 @@ class PersonalProfile extends React.Component {
                 color: "rgb(233, 116, 116)"
               }}
             ></i>
-            <b>Email</b>
+            <b>Email</b> {" "}{this.state.email}
           </Col>
           <Col>
             {" "}
@@ -246,7 +322,7 @@ class PersonalProfile extends React.Component {
                 color: "rgb(233, 116, 116)"
               }}
             ></i>
-            <b>Country</b>
+            <b>Country</b> {" "}{this.state.country}
           </Col>
         </Row>
         <Row>
@@ -260,7 +336,7 @@ class PersonalProfile extends React.Component {
                 color: "rgb(233, 116, 116)"
               }}
             ></i>
-            <b>Address Line 1</b>
+            <b>Address Line 1</b> {" "}{this.state.address1}
           </Col>
         </Row>
         <Row>
@@ -274,7 +350,7 @@ class PersonalProfile extends React.Component {
                 color: "rgb(233, 116, 116)"
               }}
             ></i>
-            <b>Address Line 2</b>
+            <b>Address Line 2</b> {" "}{this.state.address2}
           </Col>
         </Row>
         <Row>
@@ -288,7 +364,7 @@ class PersonalProfile extends React.Component {
                 color: "rgb(233, 116, 116)"
               }}
             ></i>
-            <b>City</b>
+            <b>City</b> {" "}{this.state.city}
           </Col>
           <Col>
             {" "}
@@ -300,7 +376,7 @@ class PersonalProfile extends React.Component {
                 color: "rgb(233, 116, 116)"
               }}
             ></i>
-            <b>State</b>
+            <b>State</b> {" "}{this.state.state}
           </Col>
           <Col>
             {" "}
@@ -311,8 +387,8 @@ class PersonalProfile extends React.Component {
                 fontSize: "1.2rem",
                 color: "rgb(233, 116, 116)"
               }}
-            ></i>
-            <b>Zipcode</b>
+            ></i> 
+            <b>Zipcode</b> {" "}{this.state.zipcode}
           </Col>
         </Row>
       </div>

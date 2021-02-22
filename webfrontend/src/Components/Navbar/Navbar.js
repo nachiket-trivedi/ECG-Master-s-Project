@@ -118,8 +118,8 @@ class HorizontalNav extends React.Component {
         .post(hostAddress + "/register/patient", data)
         .then(response => {
           console.log(response.data);
-          alert("Registered Successfully");
           if (response.status == 200) {
+            alert("Registered Successfully");
             console.log("Response data after register post-->" + response.data);
             localStorage.setItem("role", response.data["role"]);
             localStorage.setItem("email", response.data["email"]);

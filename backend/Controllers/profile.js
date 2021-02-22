@@ -95,21 +95,41 @@ router.post("/updatePersonalProfile", requireAuth, async function(req, res) {
     await con.query("COMMIT");
 
     bcrypt.hash(password, saltRounds, function(err, hash) {
-      let query =
+      var query;  
+      var params;
+      if (password == ""){
+        query =
+        "UPDATE users SET first_name = ?, last_name= ?, address_line_1= ?, address_line_2= ?,city= ?,state= ?, country= ?,zipcode= ?, contact=? where user_id = ?";
+        params = [
+            firstName,
+            lastName,
+            addressLine1,
+            addressLine2,
+            city,
+            state,
+            country,
+            zipcode,
+            contact,
+            userId
+          ];
+      }else {
+        query =
         "UPDATE users SET first_name = ?, last_name= ?, address_line_1= ?, address_line_2= ?,city= ?,state= ?, country= ?,zipcode= ?, password= ?, contact=? where user_id = ?";
-      let params = [
-        firstName,
-        lastName,
-        addressLine1,
-        addressLine2,
-        city,
-        state,
-        country,
-        zipcode,
-        hash,
-        contact,
-        userId
-      ];
+        params = [
+            firstName,
+            lastName,
+            addressLine1,
+            addressLine2,
+            city,
+            state,
+            country,
+            zipcode,
+            hash,
+            contact,
+            userId
+          ];
+      }
+      
       con.query(query, params, function(err, result, fields) {
         if (!result || result.length == 0) {
           // user not in DB
@@ -160,13 +180,13 @@ router.post("/addMedicalProfile", requireAuth, async function(req, res) {
   let gender = req.body.gender;
   let bloodType = req.body.bloodType;
 
-  // Assume data is in format "MM-DD-YYYY"
+  // Assume data is in format "YYYY-MM-DD"
   var parts = req.body.dob.split("-");
   // Please pay attention to the month (parts[1]); JavaScript counts months from 0:
   // January - 0, February - 1, etc.
-  var DOB = new Date(parts[2], parts[0] - 1, parts[1]);
+  var DOB = new Date(parts[0], parts[1] - 1, parts[2]);
   console.log(DOB.toDateString());
-  DOB = moment(DOB).format("YYYY-MM-DD HH:mm:ss");
+  DOB = moment(DOB).format("YYYY-MM-DD");
   
   let height = req.body.height;
   let weight = req.body.weight;
@@ -262,7 +282,7 @@ router.post("/addMedicalProfile", requireAuth, async function(req, res) {
   }
 });
 
-router.get("/medicalProfile/:user", async function(req, res) {
+router.get("/medicalProfile/:user",requireAuth, async function(req, res) {
   console.log("In Get Medical Profile");
   let userId = req.params.user;
   let con = await dbConnection();
@@ -324,13 +344,13 @@ router.post("/updateMedicalProfile", requireAuth, async function(req, res) {
   let gender = req.body.gender;
   let bloodType = req.body.bloodType;
 
-  // Assume data is in format "MM-DD-YYYY"
+ // Assume data is in format "YYYY-MM-DD"
   var parts = req.body.dob.split("-");
   // Please pay attention to the month (parts[1]); JavaScript counts months from 0:
   // January - 0, February - 1, etc.
-  var DOB = new Date(parts[2], parts[0] - 1, parts[1]);
+  var DOB = new Date(parts[0], parts[1] - 1, parts[2]);
   console.log(DOB.toDateString());
-  DOB = moment(DOB).format("YYYY-MM-DD HH:mm:ss");
+  DOB = moment(DOB).format("YYYY-MM-DD");
 
   let height = req.body.height;
   let weight = req.body.weight;

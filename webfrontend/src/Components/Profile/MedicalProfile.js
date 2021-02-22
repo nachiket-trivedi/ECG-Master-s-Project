@@ -17,30 +17,66 @@ import {
   Label,
   Input
 } from "react-bootstrap";
+import { backendIp, backendPort } from "../../config";
+
+const hostAddress = `${backendIp}:${backendPort}`;
+const config = {
+  headers: {
+    Authorization: "Bearer " + localStorage.getItem("jwtToken"),
+    "Content-Type": "application/json"
+  }
+};
 
 class MedicalProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
+      email: localStorage.getItem("email"),
+      userId: localStorage.getItem("userId"),
+      gender: "",
+      DOB: "",
+      height: "",
+      weightUnits: "",
+      heightUnits: "",
+      weight: "",
+      bloodType: "",
+      BMI: "",
       editGender: "",
       editDOB: "",
       editHeight: "",
-      editweightUnits: "",
-      editheightUnits: "",
+      editWeightUnits: "",
+      editHeightUnits: "",
       editWeight: "",
       editBloodType: "",
-      editModalIsOpen: localStorage.getItem("medicalFlag")
+      editModalIsOpen: !localStorage.getItem("medicalFlag")
     };
     this.handleClose = this.handleClose.bind(this);
   }
 
   componentWillMount = async () => {
-    axios.defaults.withCredentials = true;
-    const data = {
-      email: localStorage.getItem("email")
-    };
     //backend call to get details for object user
+    if (this.state.userId) {
+      axios.defaults.withCredentials = true;
+      axios
+        .get(
+          hostAddress + "/profile/medicalProfile/" + this.state.userId,
+          config
+        )
+        .then(response => {
+          console.log(response);
+
+          this.setState({
+            gender: response.data.gender,
+            DOB: (new Date(response.data.dob)).toISOString().slice(0,10),
+            height: response.data.height,
+            weightUnits: response.data.weight_unit,
+            heightUnits: response.data.height_unit,
+            weight: response.data.weight,
+            bloodType: response.data.blood_type,
+            BMI: response.data.BMI
+          });
+        });
+    }
   };
 
   inputChangeHandler = e => {
@@ -50,9 +86,9 @@ class MedicalProfile extends React.Component {
   };
 
   handleClose = () => {
-        this.setState({
-            editModalIsOpen: false
-          });
+    this.setState({
+      editModalIsOpen: false
+    });
   };
 
   handleEditModal = () => {
@@ -61,9 +97,35 @@ class MedicalProfile extends React.Component {
     });
   };
 
-  editProfile = () => {
+  editProfile = e => {
+    e.preventDefault();
     //Code to edit in backend
-    alert(this.state.editDOB);
+
+    const data = {
+      userId: this.state.userId,
+      gender: (this.state.editGender == "") ? this.state.gender : this.state.editGender,
+      dob: (this.state.editDOB == "") ? this.state.DOB : this.state.editDOB,
+      bloodType: (this.state.editBloodType == "") ? this.state.bloodType : this.state.editBloodType,
+      height: (this.state.editHeight == "") ? this.state.height : this.state.editHeight,
+      weight: (this.state.editWeight == "") ? this.state.weight : this.state.editWeight,
+      weightUnit: (this.state.editWeightUnits == "") ? this.state.weightUnits : this.state.editWeightUnits,
+      heightUnit: (this.state.editHeightUnits == "") ? this.state.heightUnits : this.state.editHeightUnits,
+    };
+
+    console.log(data);
+    axios.defaults.withCredentials = true;
+    axios
+      .post(hostAddress + "/profile/updateMedicalProfile", data, config)
+      .then(response => {
+        console.log(response.data);
+        if (response.status == 200) {
+          alert("Updated Successfully");
+          console.log("Response data after  post-->" + response.data);
+          window.location.reload();
+        } else {
+          window.alert("Could Not Update Data!");
+        }
+      });
   };
 
   render() {
@@ -79,6 +141,7 @@ class MedicalProfile extends React.Component {
             <Form.Control
               as="select"
               name="editGender"
+              placeholder={this.state.gender}
               onChange={this.inputChangeHandler}
             >
               <option>Female</option>
@@ -91,7 +154,6 @@ class MedicalProfile extends React.Component {
             <Form.Control
               type="date"
               name="editDOB"
-              placeholder="Date of Birth"
               onChange={this.inputChangeHandler}
             ></Form.Control>
           </Form.Group>
@@ -102,6 +164,7 @@ class MedicalProfile extends React.Component {
               as="select"
               name="editBloodType"
               onChange={this.inputChangeHandler}
+              defaultValue={this.state.bloodType}
             >
               <option>A+</option>
               <option>A-</option>
@@ -120,7 +183,7 @@ class MedicalProfile extends React.Component {
             <Form.Label>Weight</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Weight"
+              placeholder={this.state.weight}
               name="editWeight"
               onChange={this.inputChangeHandler}
             />
@@ -131,6 +194,7 @@ class MedicalProfile extends React.Component {
               as="select"
               name="editweightUnits"
               onChange={this.inputChangeHandler}
+              defaultValue={this.state.weightUnits}
             >
               <option>lb</option>
               <option>kg</option>
@@ -143,8 +207,8 @@ class MedicalProfile extends React.Component {
             <Form.Label>Height</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Height"
               name="editHeight"
+              placeholder={this.state.height}
               onChange={this.inputChangeHandler}
             />
           </Form.Group>
@@ -154,6 +218,7 @@ class MedicalProfile extends React.Component {
               as="select"
               name="editHightUnits"
               onChange={this.inputChangeHandler}
+              defaultValue={this.state.heightUnits}
             >
               <option>inch</option>
               <option>cm</option>
@@ -186,7 +251,7 @@ class MedicalProfile extends React.Component {
               }}
             ></i>
             <span>
-              <b>Gender</b> {}{" "}
+              <b>Gender</b> {this.state.gender}{" "}
             </span>
           </Col>
           <Col>
@@ -199,7 +264,7 @@ class MedicalProfile extends React.Component {
               }}
             ></i>
             <span>
-              <b>Date of Birth</b> {}{" "}
+              <b>Date of Birth</b> {this.state.DOB}{" "}
             </span>
           </Col>
           <Col>
@@ -212,7 +277,7 @@ class MedicalProfile extends React.Component {
               }}
             ></i>
             <span>
-              <b>Blood Type</b> {}{" "}
+              <b>Blood Type</b> {this.state.bloodType}{" "}
             </span>
           </Col>
         </Row>
@@ -227,7 +292,7 @@ class MedicalProfile extends React.Component {
                 color: "rgb(233, 116, 116)"
               }}
             ></i>
-            <b>Height</b>
+            <b>Height</b> {this.state.height} {this.state.heightUnit}
           </Col>
           <Col>
             {" "}
@@ -239,7 +304,7 @@ class MedicalProfile extends React.Component {
                 color: "rgb(233, 116, 116)"
               }}
             ></i>
-            <b>Weight</b>
+            <b>Weight</b> {this.state.weight} {this.state.weightUnits}
           </Col>
           <Col>
             {" "}
@@ -251,7 +316,7 @@ class MedicalProfile extends React.Component {
                 color: "rgb(233, 116, 116)"
               }}
             ></i>
-            <b>BMI</b>
+            <b>BMI</b> {this.state.BMI}
           </Col>
         </Row>
         <br></br>

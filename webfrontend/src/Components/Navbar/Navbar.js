@@ -13,6 +13,10 @@ import {
   Image,
   Input
 } from "react-bootstrap";
+import axios from "axios";
+import { backendIp, backendPort } from "../../config";
+
+const hostAddress = `${backendIp}:${backendPort}`;
 
 const registrationLinkText = "Not yet Registered? ";
 const loginLinkText = "Already a member? ";
@@ -35,7 +39,8 @@ class HorizontalNav extends React.Component {
       registerAddress2: "",
       registerCity: "",
       registerState: "",
-      registerZipcode: ""
+      registerZipcode: "",
+      registerCountry: ""
     };
     this.handleLogout = this.handleLogout.bind(this);
     this.inputChangeHandler = this.inputChangeHandler.bind(this);
@@ -76,12 +81,84 @@ class HorizontalNav extends React.Component {
     });
   };
 
-  registerPatient = () => {
-    //Code to register in backend
+  registerPatient = e => {
+    //Backend call to Register
+    e.preventDefault();
+    const data = {
+      email: this.state.registerEmail,
+      password: this.state.registerPassword,
+      firstName: this.state.registerFirstName,
+      lastName: this.state.registerLastName,
+      contact: this.state.registerContact,
+      addressLine1: this.state.registerAddress1,
+      addressLine2: this.state.registerAddress2,
+      city: this.state.registerCity,
+      state: this.state.registerState,
+      zipcode: this.state.registerZipcode,
+      country: this.state.registerCountry
+    };
+
+    axios.defaults.withCredentials = true;
+    axios
+      .post(hostAddress + "/register/patient", data)
+      .then(response => {
+        console.log(response.data);
+        alert("Registered Successfully");
+        if (response.status == 200) {
+          console.log("Response data after register post-->" + response.data);
+          localStorage.setItem("role", response.data["role"]);
+          localStorage.setItem("email", response.data["email"]);
+          localStorage.setItem("firstName", response.data["firstName"]);
+          localStorage.setItem("lastName", response.data["lastName"]);
+          localStorage.setItem("medicalFlag", response.data["medicalFlag"]);
+          localStorage.setItem("jwtToken", response.data.token);
+        } else {
+          window.alert("Error Connecting to Server");
+        }
+        window.location.reload();
+        this.setState({
+          isModalOpen: false
+        });
+      })
+      .catch(err => {
+        console.log("Invalid-in catch");
+      });
   };
 
-  loginPatient = () => {
-    //Code to login
+  loginPatient = e => {
+    //Backend call to login
+    e.preventDefault();
+    const data = {
+      email: this.state.loginEmail,
+      password: this.state.loginPassword
+    };
+    axios.defaults.withCredentials = true;
+    axios
+      .post(hostAddress + "/login", data)
+      .then(response => {
+        console.log(response.data);
+        alert("Logged In Successfully");
+        if (response.status == 200) {
+          console.log("Response data after login post-->" + response.data);
+          localStorage.setItem("role", response.data["role"]);
+          localStorage.setItem("email", response.data["email"]);
+          localStorage.setItem("firstName", response.data["firstName"]);
+          localStorage.setItem("lastName", response.data["lastName"]);
+          localStorage.setItem("medicalFlag", response.data["medicalFlag"]);
+          localStorage.setItem("jwtToken", response.data.token);
+        } else if (response.status == 205) {
+          window.alert("Invalid Credentials!");
+        } else {
+          window.alert("Error Connecting to Server");
+        }
+        window.location.reload();
+        this.setState({
+          isModalOpen: false
+        });
+      })
+      .catch(err => {
+        console.log("Invalid-in catch");
+      });
   };
 
   render() {
@@ -180,15 +257,27 @@ class HorizontalNav extends React.Component {
             </Form.Group>
           </Form.Row>
 
-          <Form.Group controlId="registerContact">
-            <Form.Label>Mobile</Form.Label>
-            <Form.Control
-              type="number"
-              placeholder="6695657890"
-              name="registerContact"
-              onChange={this.inputChangeHandler}
-            />
-          </Form.Group>
+          <Form.Row>
+            <Form.Group as={Col} controlId="registerContact">
+              <Form.Label>Mobile</Form.Label>
+              <Form.Control
+                type="number"
+                placeholder="6695657890"
+                name="registerContact"
+                onChange={this.inputChangeHandler}
+              />
+            </Form.Group>
+
+            <Form.Group as={Col} controlId="registerCountry">
+              <Form.Label>Country</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="USA"
+                name="registerCountry"
+                onChange={this.inputChangeHandler}
+              />
+            </Form.Group>
+          </Form.Row>
 
           <Form.Group controlId="registerAddress1">
             <Form.Label>Address Line 1</Form.Label>
@@ -273,18 +362,17 @@ class HorizontalNav extends React.Component {
               <Nav.Link href="/browse">Dashboard</Nav.Link>
             </Nav>
             <Nav className="mr-sm-2">
-              <Nav.Link href="#">
-                Hello! <b className="nameTag">{localStorage.getItem("name")}</b>
+              <Nav.Link href="/profile">
+                Hello!{" "}
+                <b>
+                  {localStorage.getItem("firstName") +
+                    " " +
+                    localStorage.getItem("lastName")}
+                </b>
               </Nav.Link>
-              <Nav.Link
-                onClick={this.handleLogout}
-                className="fas fa-sign-out-alt"
-                style={{
-                  margin: "2px",
-                  fontSize: "1.5rem",
-                  color: "white"
-                }}
-              ></Nav.Link>
+              <Button variant="outline-danger" onClick={this.handleLogout}>
+                Logout
+              </Button>
             </Nav>
           </Navbar.Collapse>
         );
@@ -296,18 +384,17 @@ class HorizontalNav extends React.Component {
               <Nav.Link href="/browse">Dashboard</Nav.Link>
             </Nav>
             <Nav className="mr-sm-2">
-              <Nav.Link href="#">
-                Hello! <b className="nameTag">{localStorage.getItem("name")}</b>
+              <Nav.Link href="/profile">
+                Hello!{" "}
+                <b>
+                  {localStorage.getItem("firstName") +
+                    " " +
+                    localStorage.getItem("lastName")}
+                </b>
               </Nav.Link>
-              <Nav.Link
-                onClick={this.handleLogout}
-                className="fas fa-sign-out-alt"
-                style={{
-                  margin: "2px",
-                  fontSize: "1.5rem",
-                  color: "white"
-                }}
-              ></Nav.Link>
+              <Button variant="outline-danger" onClick={this.handleLogout}>
+                Logout
+              </Button>
             </Nav>
           </Navbar.Collapse>
         );

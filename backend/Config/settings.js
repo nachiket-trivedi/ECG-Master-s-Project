@@ -1,5 +1,6 @@
-const frontendAddress = 'http://localhost';
-const frontendPort = '3000';
-
-exports.frontendAddress = frontendAddress;
-exports.frontendPort = frontendPort;
+'use strict';
+module.exports = {
+    'secret': "ecgSecretKey787",
+    'frontendAddress' : 'http://localhost',
+    'frontendPort' : '3000'
+};

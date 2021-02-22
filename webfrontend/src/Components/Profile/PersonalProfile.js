@@ -33,6 +33,7 @@ class PersonalProfile extends React.Component {
       editCity: "",
       editState: "",
       editZipcode: "",
+      editCountry: "",
       editModalIsOpen: false
     };
     this.handleClose = this.handleClose.bind(this);
@@ -112,8 +113,9 @@ class PersonalProfile extends React.Component {
             />
           </Form.Group>
         </Form.Row>
-
-        <Form.Group controlId="editContact">
+       
+        <Form.Row>
+        <Form.Group as={Col} controlId="editContact">
           <Form.Label>Mobile</Form.Label>
           <Form.Control
             type="number"
@@ -122,6 +124,16 @@ class PersonalProfile extends React.Component {
             onChange={this.inputChangeHandler}
           />
         </Form.Group>
+        <Form.Group as={Col} controlId="editCountry">
+          <Form.Label>Country</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="USA"
+            name="editCountry"
+            onChange={this.inputChangeHandler}
+          />
+        </Form.Group>
+        </Form.Row>
 
         <Form.Group controlId="editAddress1">
           <Form.Label>Address Line 1</Form.Label>
@@ -198,6 +210,18 @@ class PersonalProfile extends React.Component {
               <b>Full Name</b> {}{" "}
             </span>
           </Col>
+          <Col>
+            {" "}
+            <i
+              class="fas fa-mobile"
+              style={{
+                margin: "10px 10px 20px 0px",
+                fontSize: "1.2rem",
+                color: "rgb(233, 116, 116)"
+              }}
+            ></i>
+            <b>Mobile</b>
+          </Col>
         </Row>
         <Row>
           <Col>
@@ -215,14 +239,14 @@ class PersonalProfile extends React.Component {
           <Col>
             {" "}
             <i
-              class="fas fa-mobile"
+              class="fa fa-globe"
               style={{
                 margin: "10px 10px 20px 0px",
                 fontSize: "1.2rem",
                 color: "rgb(233, 116, 116)"
               }}
             ></i>
-            <b>Mobile</b>
+            <b>Country</b>
           </Col>
         </Row>
         <Row>

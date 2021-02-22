@@ -30,7 +30,7 @@ class MedicalProfile extends React.Component {
       editheightUnits: "",
       editWeight: "",
       editBloodType: "",
-      editModalIsOpen: false
+      editModalIsOpen: localStorage.getItem("medicalFlag")
     };
     this.handleClose = this.handleClose.bind(this);
   }
@@ -50,9 +50,9 @@ class MedicalProfile extends React.Component {
   };
 
   handleClose = () => {
-    this.setState({
-      editModalIsOpen: false
-    });
+        this.setState({
+            editModalIsOpen: false
+          });
   };
 
   handleEditModal = () => {
@@ -70,6 +70,7 @@ class MedicalProfile extends React.Component {
     let medicalProfileDetails = null;
     let modalContent = null;
     let modalTitle = "Edit Medical Profile";
+
     modalContent = (
       <Form>
         <Form.Row>

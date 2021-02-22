@@ -9,7 +9,7 @@ const app = express();
 const port = 8000;
 
 var dbConnection = require('./Database/sqlDb');
-
+var con;
 // setting view engine
 app.set('view engine', 'ejs');
 
@@ -26,10 +26,10 @@ app.use(session({
 }));
 
 //use cors to allow cross origin resource sharing
-app.use(cors({ origin:`http://${config.frontendAddress}:${config.frontendAddress}`, credentials: true }));
+app.use(cors({ origin:`${config.frontendAddress}:${config.frontendPort}`, credentials: true }));
 
 app.use(function (req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', `http://${config.frontendAddress}:${config.frontendAddress}`);
+  res.setHeader('Access-Control-Allow-Origin', `${config.frontendAddress}:${config.frontendPort}`);
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT,DELETE');
   res.setHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers');
@@ -38,16 +38,23 @@ app.use(function (req, res, next) {
 });
 
 testDBConection = async () => {
-  let con = await dbConnection();
+  con = await dbConnection();
   if (con) {
     console.log("Connected to Database");
   }
 }
 testDBConection();
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-});
+// app.get('/', (req, res) => {
+//   res.send('Hello World!')
+// });
+
+var userLoginRouter=require('./Controllers/login');
+var registerRouter=require('./Controllers/register');
+
+app.use('/login',userLoginRouter);
+app.use('/register',registerRouter);
+
 
 app.listen(port, () => {
   console.log(`ECG backend listening on port ${port}!`)

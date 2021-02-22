@@ -39,9 +39,11 @@ router.post("/", async function(req, res) {
 
         let passwordInDb = result[0].password;
         let role = result[0].role;
-        let medicalFlag = result[0].medicalProfileFlag
+        let medicalFlag = result[0].medicalProfileFlag;
+        let userId = result[0].user_id;
         firstName = result[0].first_name;
         lastName = result[0].last_name;
+
 
         bcrypt.compare(pass, passwordInDb, function(err, resp) {
             if (resp) {
@@ -64,6 +66,7 @@ router.post("/", async function(req, res) {
                 email: email,
                 role: role,
                 medicalFlag: medicalFlag,
+                userId: userId,
                 token: signed_token
               };
 

@@ -84,81 +84,105 @@ class HorizontalNav extends React.Component {
   registerPatient = e => {
     //Backend call to Register
     e.preventDefault();
-    const data = {
-      email: this.state.registerEmail,
-      password: this.state.registerPassword,
-      firstName: this.state.registerFirstName,
-      lastName: this.state.registerLastName,
-      contact: this.state.registerContact,
-      addressLine1: this.state.registerAddress1,
-      addressLine2: this.state.registerAddress2,
-      city: this.state.registerCity,
-      state: this.state.registerState,
-      zipcode: this.state.registerZipcode,
-      country: this.state.registerCountry
-    };
+    if (
+      this.state.registerEmail == "" ||
+      this.state.registerPassword == "" ||
+      this.state.registerFirstName ||
+      this.state.registerLastName == "" ||
+      this.state.registerContact == "" ||
+      this.state.registerAddress1 == "" ||
+      this.state.registerAddress2 == "" ||
+      this.state.registerCity == "" ||
+      this.state.registerState == "" ||
+      this.state.registerZipcode == "" ||
+      this.state.registerCountry == ""
+    ) {
+      alert("Please fill all fields");
+    } else {
+      const data = {
+        email: this.state.registerEmail,
+        password: this.state.registerPassword,
+        firstName: this.state.registerFirstName,
+        lastName: this.state.registerLastName,
+        contact: this.state.registerContact,
+        addressLine1: this.state.registerAddress1,
+        addressLine2: this.state.registerAddress2,
+        city: this.state.registerCity,
+        state: this.state.registerState,
+        zipcode: this.state.registerZipcode,
+        country: this.state.registerCountry
+      };
 
-    axios.defaults.withCredentials = true;
-    axios
-      .post(hostAddress + "/register/patient", data)
-      .then(response => {
-        console.log(response.data);
-        alert("Registered Successfully");
-        if (response.status == 200) {
-          console.log("Response data after register post-->" + response.data);
-          localStorage.setItem("role", response.data["role"]);
-          localStorage.setItem("email", response.data["email"]);
-          localStorage.setItem("firstName", response.data["firstName"]);
-          localStorage.setItem("lastName", response.data["lastName"]);
-          localStorage.setItem("medicalFlag", response.data["medicalFlag"]);
-          localStorage.setItem("jwtToken", response.data.token);
-        } else {
-          window.alert("Error Connecting to Server");
-        }
-        window.location.reload();
-        this.setState({
-          isModalOpen: false
+      axios.defaults.withCredentials = true;
+      axios
+        .post(hostAddress + "/register/patient", data)
+        .then(response => {
+          console.log(response.data);
+          alert("Registered Successfully");
+          if (response.status == 200) {
+            console.log("Response data after register post-->" + response.data);
+            localStorage.setItem("role", response.data["role"]);
+            localStorage.setItem("email", response.data["email"]);
+            localStorage.setItem("firstName", response.data["firstName"]);
+            localStorage.setItem("lastName", response.data["lastName"]);
+            localStorage.setItem("medicalFlag", response.data["medicalFlag"]);
+            localStorage.setItem("jwtToken", response.data.token);
+            localStorage.setItem("userId", response.data["userId"]);
+          } else {
+            window.alert("Error Connecting to Server");
+          }
+          window.location.reload();
+          this.setState({
+            isModalOpen: false
+          });
+        })
+        .catch(err => {
+          console.log("Invalid-in catch");
         });
-      })
-      .catch(err => {
-        console.log("Invalid-in catch");
-      });
+    }
   };
 
   loginPatient = e => {
     //Backend call to login
-    e.preventDefault();
-    const data = {
-      email: this.state.loginEmail,
-      password: this.state.loginPassword
-    };
-    axios.defaults.withCredentials = true;
-    axios
-      .post(hostAddress + "/login", data)
-      .then(response => {
-        console.log(response.data);
-        alert("Logged In Successfully");
-        if (response.status == 200) {
-          console.log("Response data after login post-->" + response.data);
-          localStorage.setItem("role", response.data["role"]);
-          localStorage.setItem("email", response.data["email"]);
-          localStorage.setItem("firstName", response.data["firstName"]);
-          localStorage.setItem("lastName", response.data["lastName"]);
-          localStorage.setItem("medicalFlag", response.data["medicalFlag"]);
-          localStorage.setItem("jwtToken", response.data.token);
-        } else if (response.status == 205) {
-          window.alert("Invalid Credentials!");
-        } else {
-          window.alert("Error Connecting to Server");
-        }
-        window.location.reload();
-        this.setState({
-          isModalOpen: false
+
+    if (this.state.loginEmail == "" || this.state.loginPassword == "") {
+      alert("Please fill all fields");
+    } else {
+      e.preventDefault();
+      const data = {
+        email: this.state.loginEmail,
+        password: this.state.loginPassword
+      };
+      axios.defaults.withCredentials = true;
+      axios
+        .post(hostAddress + "/login", data)
+        .then(response => {
+          console.log(response.data);
+
+          if (response.status == 200) {
+            alert("Logged In Successfully");
+            console.log("Response data after login post-->" + response.data);
+            localStorage.setItem("role", response.data["role"]);
+            localStorage.setItem("email", response.data["email"]);
+            localStorage.setItem("firstName", response.data["firstName"]);
+            localStorage.setItem("lastName", response.data["lastName"]);
+            localStorage.setItem("medicalFlag", response.data["medicalFlag"]);
+            localStorage.setItem("jwtToken", response.data.token);
+            localStorage.setItem("userId", response.data["userId"]);
+          } else if (response.status == 205) {
+            window.alert("Invalid Credentials!");
+          } else {
+            window.alert("Error Connecting to Server");
+          }
+          window.location.reload();
+          this.setState({
+            isModalOpen: false
+          });
+        })
+        .catch(err => {
+          console.log("Invalid-in catch");
         });
-      })
-      .catch(err => {
-        console.log("Invalid-in catch");
-      });
+    }
   };
 
   render() {
@@ -173,6 +197,7 @@ class HorizontalNav extends React.Component {
           <Form.Group controlId="loginEmail">
             <Form.Label>Email</Form.Label>
             <Form.Control
+              required
               type="email"
               placeholder="Email"
               name="loginEmail"
@@ -182,6 +207,7 @@ class HorizontalNav extends React.Component {
           <Form.Group controlId="loginPassword">
             <Form.Label>Password</Form.Label>
             <Form.Control
+              required
               type="password"
               placeholder="Password"
               name="loginPassword"
@@ -217,6 +243,7 @@ class HorizontalNav extends React.Component {
             <Form.Group as={Col} controlId="registerEmail">
               <Form.Label>Email</Form.Label>
               <Form.Control
+                required
                 type="email"
                 placeholder="Email"
                 name="registerEmail"
@@ -227,6 +254,7 @@ class HorizontalNav extends React.Component {
             <Form.Group as={Col} controlId="registerPassword">
               <Form.Label>Password</Form.Label>
               <Form.Control
+                required
                 type="password"
                 placeholder="Password"
                 name="registerEmail"
@@ -239,6 +267,7 @@ class HorizontalNav extends React.Component {
             <Form.Group as={Col} controlId="registerFirstName">
               <Form.Label>First Name</Form.Label>
               <Form.Control
+                required
                 type="text"
                 placeholder="First Name"
                 name="registerFirstName"
@@ -249,6 +278,7 @@ class HorizontalNav extends React.Component {
             <Form.Group as={Col} controlId="registerLastName">
               <Form.Label>Last Name</Form.Label>
               <Form.Control
+                required
                 type="text"
                 placeholder="Last Name"
                 name="registerLastName"
@@ -261,6 +291,7 @@ class HorizontalNav extends React.Component {
             <Form.Group as={Col} controlId="registerContact">
               <Form.Label>Mobile</Form.Label>
               <Form.Control
+                required
                 type="number"
                 placeholder="6695657890"
                 name="registerContact"
@@ -271,6 +302,7 @@ class HorizontalNav extends React.Component {
             <Form.Group as={Col} controlId="registerCountry">
               <Form.Label>Country</Form.Label>
               <Form.Control
+                required
                 type="text"
                 placeholder="USA"
                 name="registerCountry"
@@ -282,6 +314,7 @@ class HorizontalNav extends React.Component {
           <Form.Group controlId="registerAddress1">
             <Form.Label>Address Line 1</Form.Label>
             <Form.Control
+              required
               placeholder="1234 Main St"
               name="registerAddress1"
               onChange={this.inputChangeHandler}
@@ -291,6 +324,7 @@ class HorizontalNav extends React.Component {
           <Form.Group controlId="registerAddress2">
             <Form.Label>Address Line 2</Form.Label>
             <Form.Control
+              required
               placeholder="Apartment, studio, or floor"
               name="registerAddress2"
               onChange={this.inputChangeHandler}
@@ -301,6 +335,7 @@ class HorizontalNav extends React.Component {
             <Form.Group as={Col} controlId="registerCity">
               <Form.Label>City</Form.Label>
               <Form.Control
+                required
                 placeholder="San Jose"
                 name="registerCity"
                 onChange={this.inputChangeHandler}
@@ -310,6 +345,7 @@ class HorizontalNav extends React.Component {
             <Form.Group as={Col} controlId="registerState">
               <Form.Label>State</Form.Label>
               <Form.Control
+                required
                 placeholder="California"
                 name="registerState"
                 onChange={this.inputChangeHandler}
@@ -319,6 +355,7 @@ class HorizontalNav extends React.Component {
             <Form.Group as={Col} controlId="registerZipcode">
               <Form.Label>Zip</Form.Label>
               <Form.Control
+                required
                 type="number"
                 placeholder="95126"
                 name="registerZipcode"

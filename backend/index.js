@@ -51,10 +51,11 @@ testDBConection();
 
 var userLoginRouter=require('./Controllers/login');
 var registerRouter=require('./Controllers/register');
+var profileRouter=require('./Controllers/profile');
 
 app.use('/login',userLoginRouter);
 app.use('/register',registerRouter);
-
+app.use('/profile',profileRouter);
 
 app.listen(port, () => {
   console.log(`ECG backend listening on port ${port}!`)

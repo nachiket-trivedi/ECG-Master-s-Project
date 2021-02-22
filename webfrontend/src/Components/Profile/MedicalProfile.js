@@ -155,7 +155,7 @@ class MedicalProfile extends React.Component {
               name="editHightUnits"
               onChange={this.inputChangeHandler}
             >
-              <option>ft</option>
+              <option>inch</option>
               <option>cm</option>
             </Form.Control>
           </Form.Group>

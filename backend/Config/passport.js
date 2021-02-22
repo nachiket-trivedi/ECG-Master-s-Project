@@ -2,13 +2,14 @@
 var JwtStrategy = require('passport-jwt').Strategy;
 var ExtractJwt = require('passport-jwt').ExtractJwt;
 var config = require('./settings');
-
+const dbConnection = require('../Database/sqlDb');
 // Setup work and export for the JWT passport strategy
+module.exports = function (passport) {
 var opts = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: config.secret
 };
-passport.use(new JwtStrategy(opts, function (jwt_payload, done) {
+passport.use(new JwtStrategy(opts, async function (jwt_payload, done) {
     console.log("JWT Payload:", jwt_payload);
     let email = jwt_payload.email;
     let con = await dbConnection();
@@ -29,8 +30,7 @@ passport.use(new JwtStrategy(opts, function (jwt_payload, done) {
     await con.destroy();
 }
 }));
-
-module.exports = passport;
+}
 
 
 

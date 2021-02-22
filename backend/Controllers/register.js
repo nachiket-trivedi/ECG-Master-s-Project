@@ -55,20 +55,36 @@ router.post("/patient", async function(req, res) {
                             var signed_token = jwt.sign(token, config.secret, {
                               expiresIn: 86400 // in seconds
                             });
-                            pkg = {
-                              message: resMsg,
-                              firstName: firstName,
-                              lastName: lastName,
-                              email: email,
-                              role: role,
-                              medicalFlag: false,
-                              token: signed_token
-                            };
+                            var queryString1 = `SELECT user_id from users where email='${email}'`   
+                            con.query(queryString1,function(error, result) {
+                             if (error) {
+                                pkg = {
+                                    message: resMsg,
+                                    firstName: firstName,
+                                    lastName: lastName,
+                                    email: email,
+                                    role: role,
+                                    medicalFlag: false,
+                                    token: signed_token
+                                  };
+                             }else{
+                                pkg = {
+                                    message: resMsg,
+                                    firstName: firstName,
+                                    lastName: lastName,
+                                    email: email,
+                                    role: role,
+                                    medicalFlag: false,
+                                    userId: result[0].user_id,
+                                    token: signed_token
+                                  };
+                             }
                             console.log(pkg);
                             res.status(200).send(JSON.stringify(pkg));
                             res.end("Successful Registration");
-                            }       
-                     });       
+                            })       
+                     }     
+                 });
             });
                 
         } else {

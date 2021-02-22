@@ -15,3 +15,37 @@
 .formLinkText:hover {
     color: rgb(233, 116, 116);
 }
+
+.imgbox {
+  background-image: url("redBg.jpg");
+   background-size: cover;
+   background-repeat: no-repeat;
+   background-position: center;
+   height: 100vh;
+}
+
+.profilebg {
+    background-image: url("lightBg.jpg");
+     background-size: cover;
+     background-repeat: no-repeat;
+     background-position: center;
+     height: 100vh;
+  }
+
+.leftHome{
+    float: left; 
+    margin: auto;
+}
+
+.rightHome{
+    float: right; 
+    background-color: white;
+    height: 100vh;
+}
+
+.whiteBox{
+    background-color: white;
+    border-radius: 5px;
+    border-color: white;
+   
+}

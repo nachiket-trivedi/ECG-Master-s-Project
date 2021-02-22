@@ -188,11 +188,11 @@ class MedicalProfile extends React.Component {
               onChange={this.inputChangeHandler}
             />
           </Form.Group>
-          <Form.Group as={Col} controlId="editweightUnits">
+          <Form.Group as={Col} controlId="editWeightUnits">
             <Form.Label>Select Weight Units</Form.Label>
             <Form.Control
               as="select"
-              name="editweightUnits"
+              name="editWeightUnits"
               onChange={this.inputChangeHandler}
               defaultValue={this.state.weightUnits}
             >
@@ -216,7 +216,7 @@ class MedicalProfile extends React.Component {
             <Form.Label>Select Height Units</Form.Label>
             <Form.Control
               as="select"
-              name="editHightUnits"
+              name="editHeightUnits"
               onChange={this.inputChangeHandler}
               defaultValue={this.state.heightUnits}
             >
@@ -292,7 +292,7 @@ class MedicalProfile extends React.Component {
                 color: "rgb(233, 116, 116)"
               }}
             ></i>
-            <b>Height</b> {this.state.height} {this.state.heightUnit}
+            <b>Height</b> {this.state.height} {this.state.heightUnits}
           </Col>
           <Col>
             {" "}

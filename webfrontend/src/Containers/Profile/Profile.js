@@ -3,6 +3,7 @@ import { Container, Jumbotron } from "react-bootstrap";
 import MedicalProfile from "../../Components/Profile/MedicalProfile";
 import PersonalProfile from "../../Components/Profile/PersonalProfile";
 import { Redirect } from "react-router";
+import styles from "../../Styles/styles.module.css";
 
 class Profile extends React.Component {
   constructor(props) {
@@ -11,9 +12,9 @@ class Profile extends React.Component {
 
   render() {
     let medProfileDetails = null;
-    
-    if(localStorage.getItem("email") == null){
-        return <Redirect to="/" />;
+
+    if (localStorage.getItem("email") == null) {
+      return <Redirect to="/" />;
     }
 
     if (localStorage.getItem("role") != "admin") {
@@ -25,15 +26,20 @@ class Profile extends React.Component {
     }
 
     return (
-      <Container>
-        <br></br>
-        <Jumbotron>
-          <PersonalProfile />
-        </Jumbotron>
-        <hr></hr>
-        <br></br>
-        {medProfileDetails}
-      </Container>
+      <div className={styles.profilebg}>
+        <Container className = {styles.whiteBox}>
+          <br></br>
+          <br></br>
+          <Jumbotron>
+            <PersonalProfile />
+          </Jumbotron>
+          <hr></hr>
+          <br></br>
+          {medProfileDetails}
+          <br></br>
+          <br></br>
+        </Container>
+      </div>
     );
   }
 }

@@ -9,7 +9,7 @@ class Landing extends React.Component {
 
   render() {
     if (localStorage.getItem("medicalFlag") == 0 || localStorage.getItem("medicalFlag") == "false" ) {
-      return <Redirect to="/profile" />;
+      return <Redirect to="/completeMedicalProfile" />;
     }
 
     return (

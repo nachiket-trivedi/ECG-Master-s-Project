@@ -134,7 +134,7 @@ class MedicalProfile extends React.Component {
     let modalTitle = "Edit Medical Profile";
 
     modalContent = (
-      <Form>
+      <Form className={styles.fontFam}>
         <Form.Row>
           <Form.Group as={Col} controlId="editGender">
             <Form.Label>Gender</Form.Label>
@@ -338,11 +338,11 @@ class MedicalProfile extends React.Component {
         <br></br>
         <Row>
           <Col sm={10}>
-            <h3>Medical Details</h3>
+            <h3 className={styles.fontFam}>Medical Details</h3>
             {medicalProfileDetails}
           </Col>
           <Col>
-            <Button variant="danger" onClick={this.handleEditModal}>
+            <Button variant="danger" onClick={this.handleEditModal} className={styles.fontFam}>
               Edit Details
             </Button>
           </Col>

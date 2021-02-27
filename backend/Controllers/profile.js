@@ -365,8 +365,8 @@ router.post("/updateMedicalProfile", requireAuth, async function(req, res) {
   } else {
     weightInKg = weight * 0.454;
   }
-  if (heightUnit == "m") {
-    heightInM = height;
+  if (heightUnit == "cm") {
+    heightInM = height * 0.01;
   } else {
     heightInM = height * 0.0254;
   }

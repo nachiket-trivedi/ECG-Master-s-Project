@@ -1,51 +1,107 @@
-
-.formButton{
-    float: right;
+.formButton {
+  float: right;
 }
 
-.formText{
-    font-size: 1rem;
+.formText {
+  font-size: 1rem;
 }
 
-.formLinkText{
-    font-size: 1rem;
-    color:red;
+.formLinkText {
+  font-size: 1rem;
+  color: red;
 }
 
 .formLinkText:hover {
-    color: rgb(233, 116, 116);
+  color: rgb(233, 116, 116);
 }
 
 .imgbox {
   background-image: url("redBg.jpg");
-   background-size: cover;
-   background-repeat: no-repeat;
-   background-position: center;
-   height: 100vh;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 100vh;
 }
 
 .profilebg {
-    background-image: url("lightBg.jpg");
-     background-size: cover;
-     background-repeat: no-repeat;
-     background-position: center;
-     height: 100vh;
+  /* background-image: url("lightBg.jpg"); */
+  background-color: rgb(255, 210, 210); 
+  background-size: cover;
+  background-repeat: repeat-y;
+  background-position: center;
+  height: 100vh;
+}
+
+.imagebg {
+    background-image: url("lightBg.jpg"); 
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100vh;
   }
 
-.leftHome{
-    float: left; 
-    margin: auto;
+
+.leftHome {
+  float: left;
+  margin: auto;
 }
 
-.rightHome{
-    float: right; 
-    background-color: white;
-    height: 100vh;
+.rightHome {
+  float: right;
+  background-color: white;
+  height: 100vh;
 }
 
-.whiteBox{
-    background-color: white;
-    border-radius: 5px;
-    border-color: white;
-   
+.whiteBox {
+  background-color: white;
+  border-radius: 5px;
+  border-color: white;
+  box-sizing: border-box;
+  width: 78%;
+  border: solid white 2ch;
+  margin-left: 11%;
+  padding-right: 3%;
+}
+
+.centerText {
+  position: absolute;
+  width: 100px;
+  height: 50px;
+  top: 50%;
+  left: 50%;
+  margin-left: -50px; /* margin is -0.5 * dimension */
+  margin-top: -25px;
+}
+
+.user {
+  display: inline-block;
+  width: 30ch;
+  height: 30vh;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
+.padded {
+  padding: 2%;
+}
+
+.profileTextHeading{
+    color: rgb(119, 119, 119);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.profileTextNumbers{
+    color:rgb(245, 121, 121);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.headingText{
+    color:rgb(245, 121, 121);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.fontFam{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }

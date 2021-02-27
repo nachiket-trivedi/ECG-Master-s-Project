@@ -145,7 +145,7 @@ class PersonalProfile extends React.Component {
     let modalContent = null;
     let modalTitle = "Edit Personal Profile";
     modalContent = (
-      <Form>
+      <Form className={styles.fontFam}>
         <Form.Row>
         <Form.Group as={Col} controlId="editPassword">
             <Form.Label>Password</Form.Label>
@@ -271,7 +271,7 @@ class PersonalProfile extends React.Component {
     );
 
     personalProfileDetails = (
-      <div>
+      <div >
         <Row>
           <Col>
             <i
@@ -409,11 +409,12 @@ class PersonalProfile extends React.Component {
         <br></br>
         <Row>
           <Col sm={10}>
-            <h3>Personal Details</h3>
+            <h3 className={styles.fontFam}>Personal Details</h3>
+            <br></br>
             {personalProfileDetails}
           </Col>
           <Col>
-            <Button variant="danger" onClick={this.handleEditModal}>
+            <Button variant="danger" onClick={this.handleEditModal} className={styles.fontFam}>
               Edit Details
             </Button>
           </Col>

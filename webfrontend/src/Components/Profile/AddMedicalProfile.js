@@ -84,7 +84,7 @@ class AddMedicalProfile extends React.Component {
 
     if (
       localStorage.getItem("email") == null ||
-      localStorage.getItem("medicalFlag") != 0
+      !localStorage.getItem("medicalFlag")
     ) {
       return <Redirect to="/" />;
     }

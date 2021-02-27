@@ -42,6 +42,7 @@ class HorizontalNav extends React.Component {
       registerZipcode: "",
       registerCountry: ""
     };
+
     this.handleLogout = this.handleLogout.bind(this);
     this.inputChangeHandler = this.inputChangeHandler.bind(this);
     this.handleLoginModal = this.handleLoginModal.bind(this);
@@ -84,62 +85,46 @@ class HorizontalNav extends React.Component {
   registerPatient = e => {
     //Backend call to Register
     e.preventDefault();
-    if (
-      this.state.registerEmail == "" ||
-      this.state.registerPassword == "" ||
-      this.state.registerFirstName ||
-      this.state.registerLastName == "" ||
-      this.state.registerContact == "" ||
-      this.state.registerAddress1 == "" ||
-      this.state.registerAddress2 == "" ||
-      this.state.registerCity == "" ||
-      this.state.registerState == "" ||
-      this.state.registerZipcode == "" ||
-      this.state.registerCountry == ""
-    ) {
-      alert("Please fill all fields");
-    } else {
-      const data = {
-        email: this.state.registerEmail,
-        password: this.state.registerPassword,
-        firstName: this.state.registerFirstName,
-        lastName: this.state.registerLastName,
-        contact: this.state.registerContact,
-        addressLine1: this.state.registerAddress1,
-        addressLine2: this.state.registerAddress2,
-        city: this.state.registerCity,
-        state: this.state.registerState,
-        zipcode: this.state.registerZipcode,
-        country: this.state.registerCountry
-      };
+    const data = {
+      email: this.state.registerEmail,
+      password: this.state.registerPassword,
+      firstName: this.state.registerFirstName,
+      lastName: this.state.registerLastName,
+      contact: this.state.registerContact,
+      addressLine1: this.state.registerAddress1,
+      addressLine2: this.state.registerAddress2,
+      city: this.state.registerCity,
+      state: this.state.registerState,
+      zipcode: this.state.registerZipcode,
+      country: this.state.registerCountry
+    };
 
-      axios.defaults.withCredentials = true;
-      axios
-        .post(hostAddress + "/register/patient", data)
-        .then(response => {
-          console.log(response.data);
-          if (response.status == 200) {
-            alert("Registered Successfully");
-            console.log("Response data after register post-->" + response.data);
-            localStorage.setItem("role", response.data["role"]);
-            localStorage.setItem("email", response.data["email"]);
-            localStorage.setItem("firstName", response.data["firstName"]);
-            localStorage.setItem("lastName", response.data["lastName"]);
-            localStorage.setItem("medicalFlag", response.data["medicalFlag"]);
-            localStorage.setItem("jwtToken", response.data.token);
-            localStorage.setItem("userId", response.data["userId"]);
-          } else {
-            window.alert("Error Connecting to Server");
-          }
-          window.location.reload();
-          this.setState({
-            isModalOpen: false
-          });
-        })
-        .catch(err => {
-          console.log("Invalid-in catch");
+    axios.defaults.withCredentials = true;
+    axios
+      .post(hostAddress + "/register/patient", data)
+      .then(response => {
+        console.log(response.data);
+        if (response.status == 200) {
+          alert("Registered Successfully");
+          console.log("Response data after register post-->" + response.data);
+          localStorage.setItem("role", response.data["role"]);
+          localStorage.setItem("email", response.data["email"]);
+          localStorage.setItem("firstName", response.data["firstName"]);
+          localStorage.setItem("lastName", response.data["lastName"]);
+          localStorage.setItem("medicalFlag", response.data["medicalFlag"]);
+          localStorage.setItem("jwtToken", response.data.token);
+          localStorage.setItem("userId", response.data["userId"]);
+        } else {
+          window.alert("Error Connecting to Server");
+        }
+        window.location.reload();
+        this.setState({
+          isModalOpen: false
         });
-    }
+      })
+      .catch(err => {
+        console.log("Invalid-in catch");
+      });
   };
 
   loginPatient = e => {
@@ -193,7 +178,7 @@ class HorizontalNav extends React.Component {
     if (this.state.loginModalFlag) {
       modalTitle = "Sign In";
       modalContent = (
-        <Form>
+        <Form className={styles.fontFam}>
           <Form.Group controlId="loginEmail">
             <Form.Label>Email</Form.Label>
             <Form.Control
@@ -238,14 +223,14 @@ class HorizontalNav extends React.Component {
     } else {
       modalTitle = "Register";
       modalContent = (
-        <Form>
+        <Form className={styles.fontFam}>
           <Form.Row>
             <Form.Group as={Col} controlId="registerEmail">
               <Form.Label>Email</Form.Label>
               <Form.Control
                 required
                 type="email"
-                placeholder="Email"
+                placeholder="jane@doe.com"
                 name="registerEmail"
                 onChange={this.inputChangeHandler}
               />
@@ -256,8 +241,8 @@ class HorizontalNav extends React.Component {
               <Form.Control
                 required
                 type="password"
-                placeholder="Password"
-                name="registerEmail"
+                placeholder="*******"
+                name="registerPassword"
                 onChange={this.inputChangeHandler}
               />
             </Form.Group>
@@ -269,7 +254,7 @@ class HorizontalNav extends React.Component {
               <Form.Control
                 required
                 type="text"
-                placeholder="First Name"
+                placeholder="Jane"
                 name="registerFirstName"
                 onChange={this.inputChangeHandler}
               />
@@ -280,7 +265,7 @@ class HorizontalNav extends React.Component {
               <Form.Control
                 required
                 type="text"
-                placeholder="Last Name"
+                placeholder="Doe"
                 name="registerLastName"
                 onChange={this.inputChangeHandler}
               />
@@ -304,7 +289,7 @@ class HorizontalNav extends React.Component {
               <Form.Control
                 required
                 type="text"
-                placeholder="USA"
+                placeholder="United States"
                 name="registerCountry"
                 onChange={this.inputChangeHandler}
               />
@@ -395,8 +380,8 @@ class HorizontalNav extends React.Component {
         navLogin = (
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
-              <Nav.Link href="/browse">ECG Analysis</Nav.Link>
-              <Nav.Link href="/browse">Dashboard</Nav.Link>
+              <Nav.Link href="/analyze">ECG Analysis</Nav.Link>
+              <Nav.Link href="#">Dashboard</Nav.Link>
             </Nav>
             <Nav className="mr-sm-2">
               <Nav.Link href="/profile">
@@ -407,7 +392,7 @@ class HorizontalNav extends React.Component {
                     localStorage.getItem("lastName")}
                 </b>
               </Nav.Link>
-              <Button variant="outline-danger" onClick={this.handleLogout}>
+              <Button variant="danger" onClick={this.handleLogout}>
                 Logout
               </Button>
             </Nav>
@@ -429,7 +414,7 @@ class HorizontalNav extends React.Component {
                     localStorage.getItem("lastName")}
                 </b>
               </Nav.Link>
-              <Button variant="outline-danger" onClick={this.handleLogout}>
+              <Button variant="danger" onClick={this.handleLogout}>
                 Logout
               </Button>
             </Nav>
@@ -441,7 +426,7 @@ class HorizontalNav extends React.Component {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto"></Nav>
           <Nav className="mr-sm-2">
-            <Button variant="outline-danger" onClick={this.handleLoginModal}>
+            <Button variant="danger" onClick={this.handleLoginModal}>
               Sign In
             </Button>
           </Nav>

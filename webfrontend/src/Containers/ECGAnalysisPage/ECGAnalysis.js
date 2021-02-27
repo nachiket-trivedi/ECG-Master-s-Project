@@ -2,8 +2,10 @@ import React from "react";
 import { Container, Col, Row } from "react-bootstrap";
 import { Redirect } from "react-router";
 import styles from "../../Styles/styles.module.css";
+import UploadECG from "../../Components/ECGAnalysis/UploadECG";
+import ECGReports from "../../Components/ECGAnalysis/ECGReports";
 
-class Landing extends React.Component {
+class ECGAnalysis extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -17,15 +19,14 @@ class Landing extends React.Component {
     }
 
     return (
-      <div className={styles.imagebg}>
-         <Row>
-           <div sm={7} className={styles.centerText}>
-          
-           </div>
-         </Row>
+      <div className={styles.profilebg}>
+          <br></br>
+        <UploadECG />
+       <br></br>
+        <ECGReports />
       </div>
     );
   }
 }
 
-export default Landing;
+export default ECGAnalysis;

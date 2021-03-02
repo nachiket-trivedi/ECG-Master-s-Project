@@ -15,6 +15,10 @@ class ECGAnalysis extends React.Component {
       return <Redirect to="/" />;
     }
 
+    if ( localStorage.getItem("role") == "admin") {
+        return <Redirect to="/" />;
+    }
+
     if (
       localStorage.getItem("role") == "patient" &&
       (localStorage.getItem("medicalFlag") == 0 ||

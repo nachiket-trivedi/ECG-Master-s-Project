@@ -35,6 +35,11 @@
   background-color: rgb(255, 210, 210); 
 }
 
+.profileColorbg {
+    background-color: rgb(255, 210, 210); 
+    height:100vh;
+  }
+
 .imagebg {
     background-image: url("lightBg.jpg"); 
     background-size: cover;

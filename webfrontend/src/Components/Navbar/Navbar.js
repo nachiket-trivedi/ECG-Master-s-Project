@@ -403,10 +403,10 @@ class HorizontalNav extends React.Component {
         navLogin = (
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
-              <Nav.Link href="/browse">Dashboard</Nav.Link>
+              <Nav.Link href="/adminDashboard">Dashboard</Nav.Link>
             </Nav>
             <Nav className="mr-sm-2">
-              <Nav.Link href="/profile">
+              <Nav.Link href="/adminProfile">
                 Hello!{" "}
                 <b>
                   {localStorage.getItem("firstName") +

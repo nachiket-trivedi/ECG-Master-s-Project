@@ -2,11 +2,14 @@ import React, { Component } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { Redirect } from "react-router";
 import styles from "../../Styles/styles.module.css";
-import PatientECGCount from "../../Components/Dashboard/Patient/PatientECGCount";
-import PatientECGAgewise from "../../Components/Dashboard/Patient/PatientECGAgewise";
-import PatientECGCountrywise from "../../Components/Dashboard/Patient/PatientECGCountrywise";
+import AdminUserCount from "../../Components/Dashboard/Admin/AdminUserCount";
+import AdminECGCount from "../../Components/Dashboard/Admin/AdminECGCount";
+import AdminAbnormalAgewise from "../../Components/Dashboard/Admin/AdminAbnormalAgewise";
+import AdminAbnormalCountrywise from "../../Components/Dashboard/Admin/AdminAbnormalCountrywise";
+import AdminAbnormalGenderwise from "../../Components/Dashboard/Admin/AdminAbnormalGenderwise";
+import AdminAbnormalBMIwise from "../../Components/Dashboard/Admin/AdminAbnormalBMIwise";
 
-class PatientDashboard extends Component {
+class AdminDashboard extends Component {
   constructor(props) {
     super(props);
   }
@@ -16,23 +19,15 @@ class PatientDashboard extends Component {
       return <Redirect to="/" />;
     }
 
-    if (
-      localStorage.getItem("role") == "patient" &&
-      (localStorage.getItem("medicalFlag") == 0 ||
-        localStorage.getItem("medicalFlag") == "false")
-    ) {
-      return <Redirect to="/completeMedicalProfile" />;
+    if (localStorage.getItem("role") == "patient") {
+      return <Redirect to="/" />;
     }
 
-    if ( localStorage.getItem("role") == "admin") {
-        return <Redirect to="/" />;
-      }
-  
     return (
       <div className={styles.colorbg}>
         <br />
         <div className={styles.whiteBox}>
-          <h2 className={styles.headingText}>Dashboard</h2>
+          <h2 className={styles.headingText}>Admin Dashboard</h2>
           <hr />
           <br />
           <Row>
@@ -63,17 +58,36 @@ class PatientDashboard extends Component {
 
           <Row>
             <Col>
-              <PatientECGCount />
+              <AdminUserCount />
+            </Col>
+          </Row>
+          <br />
+          <br />
+
+          <Row>
+            <Col>
+              <AdminECGCount />
+            </Col>
+          </Row>
+          <br />
+          <br />
+
+          <Row>
+            <Col>
+              <AdminAbnormalAgewise />
+            </Col>
+            <Col>
+              <AdminAbnormalCountrywise />
             </Col>
           </Row>
           <br />
           <br />
           <Row>
             <Col>
-              <PatientECGAgewise />
+              <AdminAbnormalGenderwise />
             </Col>
             <Col>
-              <PatientECGCountrywise />
+              <AdminAbnormalBMIwise />
             </Col>
           </Row>
           <br />
@@ -85,4 +99,4 @@ class PatientDashboard extends Component {
   }
 }
 
-export default PatientDashboard;
+export default AdminDashboard;

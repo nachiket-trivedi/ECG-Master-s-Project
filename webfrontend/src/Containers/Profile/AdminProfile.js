@@ -7,7 +7,7 @@ import styles from "../../Styles/styles.module.css";
 import femaleImage from "../../Styles/female.png";
 import maleImage from "../../Styles/male.png";
 
-class Profile extends React.Component {
+class AdminProfile extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -20,21 +20,13 @@ class Profile extends React.Component {
       return <Redirect to="/" />;
     }
 
-    if ( (localStorage.getItem("role") == "patient") && (localStorage.getItem("medicalFlag") == 0 || localStorage.getItem("medicalFlag") == "false")) {
-      return <Redirect to="/completeMedicalProfile" />;
+    if (localStorage.getItem("role") == "patient") {
+      return <Redirect to="/" />;
     }
 
-    if (localStorage.getItem("role") != "admin") {
-      medProfileDetails = (
-        <Jumbotron>
-          <MedicalProfile />
-        </Jumbotron>
-      );
-    }
-
-    if(localStorage.getItem("gender") == "female"){
+    if (localStorage.getItem("gender") == "female") {
       image = femaleImage;
-    } 
+    }
 
     return (
       <div className={styles.profileColorbg}>
@@ -43,20 +35,17 @@ class Profile extends React.Component {
           <Row>
             <span className={styles.padded}>
               <center>
+                <br />
+                <br />
+                <div>
+                  <b>
+                    <h3 className={styles.profileTextNumbers}>Admin User</h3>
+                  </b>
+                </div>
                 <div>
                   <img className={styles.user} src={image} alt="userProfile" />
                 </div>
                 <br />
-                <div>
-                  <b>
-                    <h5 className={styles.profileText}>ECG Reports Uploaded</h5>
-                    <h3 className={styles.profileTextNumbers}>7</h3>
-                    <br />
-                    <br />
-                    <h5 className={styles.profileText}>Last ECG Analysed</h5>
-                    <h3 className={styles.profileTextNumbers}>Feb 2, 2021 </h3>
-                  </b>
-                </div>
               </center>
             </span>
             <Col>
@@ -65,9 +54,6 @@ class Profile extends React.Component {
               <Jumbotron>
                 <PersonalProfile />
               </Jumbotron>
-              <hr />
-              <br />
-              {medProfileDetails}
             </Col>
           </Row>
         </div>
@@ -77,4 +63,4 @@ class Profile extends React.Component {
   }
 }
 
-export default Profile;
+export default AdminProfile;

@@ -41,6 +41,7 @@ class MedicalProfile extends React.Component {
       weight: "",
       bloodType: "",
       BMI: "",
+      history: "",
       editGender: "",
       editDOB: "",
       editHeight: "",
@@ -48,6 +49,7 @@ class MedicalProfile extends React.Component {
       editHeightUnits: "",
       editWeight: "",
       editBloodType: "",
+      editHistory: "",
       editModalIsOpen: !localStorage.getItem("medicalFlag")
     };
     this.handleClose = this.handleClose.bind(this);
@@ -64,16 +66,18 @@ class MedicalProfile extends React.Component {
         )
         .then(response => {
           console.log(response);
+          localStorage.setItem("gender",response.data.gender);
 
           this.setState({
             gender: response.data.gender,
-            DOB: (new Date(response.data.dob)).toISOString().slice(0,10),
+            DOB: new Date(response.data.dob).toISOString().slice(0, 10),
             height: response.data.height,
             weightUnits: response.data.weight_unit,
             heightUnits: response.data.height_unit,
             weight: response.data.weight,
             bloodType: response.data.blood_type,
-            BMI: response.data.BMI
+            BMI: response.data.BMI,
+            history: response.data.history
           });
         });
     }
@@ -103,13 +107,29 @@ class MedicalProfile extends React.Component {
 
     const data = {
       userId: this.state.userId,
-      gender: (this.state.editGender == "") ? this.state.gender : this.state.editGender,
-      dob: (this.state.editDOB == "") ? this.state.DOB : this.state.editDOB,
-      bloodType: (this.state.editBloodType == "") ? this.state.bloodType : this.state.editBloodType,
-      height: (this.state.editHeight == "") ? this.state.height : this.state.editHeight,
-      weight: (this.state.editWeight == "") ? this.state.weight : this.state.editWeight,
-      weightUnit: (this.state.editWeightUnits == "") ? this.state.weightUnits : this.state.editWeightUnits,
-      heightUnit: (this.state.editHeightUnits == "") ? this.state.heightUnits : this.state.editHeightUnits,
+      gender:
+        this.state.editGender == "" ? this.state.gender : this.state.editGender,
+      dob: this.state.editDOB == "" ? this.state.DOB : this.state.editDOB,
+      bloodType:
+        this.state.editBloodType == ""
+          ? this.state.bloodType
+          : this.state.editBloodType,
+      height:
+        this.state.editHeight == "" ? this.state.height : this.state.editHeight,
+      weight:
+        this.state.editWeight == "" ? this.state.weight : this.state.editWeight,
+      weightUnit:
+        this.state.editWeightUnits == ""
+          ? this.state.weightUnits
+          : this.state.editWeightUnits,
+      heightUnit:
+        this.state.editHeightUnits == ""
+          ? this.state.heightUnits
+          : this.state.editHeightUnits,
+      history:
+        this.state.editHistory == ""
+          ? this.state.history
+          : this.state.editHistory
     };
 
     console.log(data);
@@ -146,6 +166,7 @@ class MedicalProfile extends React.Component {
             >
               <option>Female</option>
               <option>Male</option>
+              <option>Other</option>
             </Form.Control>
           </Form.Group>
 
@@ -226,6 +247,14 @@ class MedicalProfile extends React.Component {
           </Form.Group>
         </Form.Row>
 
+        <Form.Group controlId="editHistory">
+          <Form.Label>Previous History of Heart Disorders</Form.Label>
+          <Form.Control
+            placeholder={this.state.history}
+            name="editHistory"
+            onChange={this.inputChangeHandler}
+          />
+        </Form.Group>
         <Button
           variant="danger"
           type="submit"
@@ -239,7 +268,7 @@ class MedicalProfile extends React.Component {
 
     medicalProfileDetails = (
       <div>
-        <br></br>
+        <br />
         <Row>
           <Col>
             <i
@@ -319,7 +348,22 @@ class MedicalProfile extends React.Component {
             <b>BMI</b> {this.state.BMI}
           </Col>
         </Row>
-        <br></br>
+        <Row>
+          <Col>
+            {" "}
+            <i
+              class="fa fa-history"
+              style={{
+                margin: "10px 10px 20px 0px",
+                fontSize: "1.2rem",
+                color: "rgb(233, 116, 116)"
+              }}
+            ></i>
+            <b>History of Heart Disorders</b> {this.state.history}
+          </Col>
+        </Row>
+
+        <br />
       </div>
     );
 
@@ -335,14 +379,18 @@ class MedicalProfile extends React.Component {
           </Modal.Header>
           <Modal.Body>{modalContent}</Modal.Body>
         </Modal>
-        <br></br>
+        <br />
         <Row>
           <Col sm={10}>
             <h3 className={styles.fontFam}>Medical Details</h3>
             {medicalProfileDetails}
           </Col>
           <Col>
-            <Button variant="danger" onClick={this.handleEditModal} className={styles.fontFam}>
+            <Button
+              variant="danger"
+              onClick={this.handleEditModal}
+              className={styles.fontFam}
+            >
               Edit Details
             </Button>
           </Col>

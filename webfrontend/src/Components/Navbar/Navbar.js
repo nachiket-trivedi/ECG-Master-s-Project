@@ -381,7 +381,7 @@ class HorizontalNav extends React.Component {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
               <Nav.Link href="/analyze">ECG Analysis</Nav.Link>
-              <Nav.Link href="#">Dashboard</Nav.Link>
+              <Nav.Link href="/dashboard">Dashboard</Nav.Link>
             </Nav>
             <Nav className="mr-sm-2">
               <Nav.Link href="/profile">

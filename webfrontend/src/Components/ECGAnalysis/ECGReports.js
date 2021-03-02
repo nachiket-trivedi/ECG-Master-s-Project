@@ -37,18 +37,15 @@ class ECGReports extends React.Component {
           <h2 className={styles.headingText}>
               ECG Reports
           </h2>
-          <hr></hr>
-          <br>
-          </br>
+          <hr/>
+          <br/>
           <center className={styles.profileTextHeading}>
               <h5>
               Nothing to show!
               </h5>
           
           </center>
-          <br></br> <br></br> <br></br> <br></br> <br></br> <br></br> <br></br> <br></br> <br></br> <br></br> <br></br>
-          
-        <br></br>
+          <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/>
       </div>
     );
   }

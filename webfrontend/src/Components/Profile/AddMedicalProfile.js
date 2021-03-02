@@ -25,7 +25,8 @@ class AddMedicalProfile extends React.Component {
       weightUnits: "",
       heightUnits: "",
       weight: "",
-      bloodType: ""
+      bloodType: "",
+      history: ""
     };
     this.inputChangeHandler = this.inputChangeHandler.bind(this);
   }
@@ -59,7 +60,8 @@ class AddMedicalProfile extends React.Component {
         height: this.state.height,
         weight: this.state.weight,
         weightUnit: this.state.weightUnits,
-        heightUnit: this.state.heightUnits
+        heightUnit: this.state.heightUnits,
+        history: this.state.history == "" ? "None" : this.state.history
       };
 
       console.log(data);
@@ -97,11 +99,11 @@ class AddMedicalProfile extends React.Component {
         </Col>
         <Col sm={4} className={styles.rightHome}>
           <Container>
-            <br></br>
-            <br></br>
-            <br></br>
+            <br />
+            <br />
+            <br />
             <h4> Complete Your Medical Profile</h4>
-            <br></br>
+            <br />
 
             <Form>
               <Form.Row>
@@ -116,6 +118,7 @@ class AddMedicalProfile extends React.Component {
                   >
                     <option>Female</option>
                     <option>Male</option>
+                    <option>Other</option>
                   </Form.Control>
                 </Form.Group>
 
@@ -203,7 +206,17 @@ class AddMedicalProfile extends React.Component {
                   </Form.Control>
                 </Form.Group>
               </Form.Row>
-              <br></br>
+
+              <Form.Group controlId="history">
+                <Form.Label>Previous History of Heart Disorders</Form.Label>
+                <Form.Control
+                  placeholder="High BP"
+                  name="history"
+                  onChange={this.inputChangeHandler}
+                />
+              </Form.Group>
+
+              <br />
               <Button
                 variant="danger"
                 type="submit"

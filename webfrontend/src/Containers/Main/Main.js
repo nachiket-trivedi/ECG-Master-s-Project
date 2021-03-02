@@ -4,6 +4,7 @@ import Landing from "../Landing/Landing";
 import Profile from "../../Containers/Profile/Profile";
 import AddMedicalProfile from "../../Components/Profile/AddMedicalProfile";
 import ECGAnalysis from "../ECGAnalysisPage/ECGAnalysis";
+import PatientDashboard from "../Dashboard/PatientDashboard";
 
 class Main extends Component {
   render() {
@@ -13,6 +14,7 @@ class Main extends Component {
         <Route path="/profile" exact component={Profile} />
         <Route path="/completeMedicalProfile" exact component={AddMedicalProfile} />
         <Route path="/analyze" exact component={ECGAnalysis}/>
+        <Route path="/dashboard" exact component={PatientDashboard}/>
       </Router>
     );
   }

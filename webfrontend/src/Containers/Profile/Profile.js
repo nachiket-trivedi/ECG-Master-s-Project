@@ -4,7 +4,8 @@ import MedicalProfile from "../../Components/Profile/MedicalProfile";
 import PersonalProfile from "../../Components/Profile/PersonalProfile";
 import { Redirect } from "react-router";
 import styles from "../../Styles/styles.module.css";
-import image from "../../Styles/female.png";
+import femaleImage from "../../Styles/female.png";
+import maleImage from "../../Styles/male.png";
 
 class Profile extends React.Component {
   constructor(props) {
@@ -13,15 +14,13 @@ class Profile extends React.Component {
 
   render() {
     let medProfileDetails = null;
+    let image = femaleImage;
 
     if (localStorage.getItem("email") == null) {
       return <Redirect to="/" />;
     }
 
-    if (
-      localStorage.getItem("medicalFlag") == 0 ||
-      localStorage.getItem("medicalFlag") == "false"
-    ) {
+    if ( (localStorage.getItem("role") == "patient") && (localStorage.getItem("medicalFlag") == 0 || localStorage.getItem("medicalFlag") == "false")) {
       return <Redirect to="/completeMedicalProfile" />;
     }
 
@@ -33,9 +32,13 @@ class Profile extends React.Component {
       );
     }
 
+    if(localStorage.getItem("gender") == "female"){
+      image = femaleImage;
+    } 
+
     return (
-      <div className={styles.profilebg}>
-        <br></br>
+      <div className={styles.colorbg}>
+        <br />
         <div className={styles.whiteBox}>
           <Row>
             <span className={styles.padded}>
@@ -43,13 +46,13 @@ class Profile extends React.Component {
                 <div>
                   <img className={styles.user} src={image} alt="userProfile" />
                 </div>
-                <br></br>
+                <br />
                 <div>
                   <b>
                     <h5 className={styles.profileText}>ECG Reports Uploaded</h5>
                     <h3 className={styles.profileTextNumbers}>7</h3>
-                    <br></br>
-                    <br></br>
+                    <br />
+                    <br />
                     <h5 className={styles.profileText}>Last ECG Analysed</h5>
                     <h3 className={styles.profileTextNumbers}>Feb 2, 2021 </h3>
                   </b>
@@ -57,17 +60,18 @@ class Profile extends React.Component {
               </center>
             </span>
             <Col>
-              <br></br>
-              <br></br>
+              <br />
+              <br />
               <Jumbotron>
                 <PersonalProfile />
               </Jumbotron>
-              <hr></hr>
-              <br></br>
+              <hr />
+              <br />
               {medProfileDetails}
             </Col>
           </Row>
         </div>
+        <br />
       </div>
     );
   }

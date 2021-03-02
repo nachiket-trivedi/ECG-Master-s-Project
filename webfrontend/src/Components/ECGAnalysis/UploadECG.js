@@ -34,23 +34,23 @@ class UploadECG extends React.Component {
     return (
       <div className={styles.whiteBox}>
         <h2 className={styles.headingText}>ECG Analysis</h2>
-        <hr></hr>
-        <br></br>
+        <hr/>
+        <br/>
         <h4 className={styles.profileTextHeading}>
           Upload ECG Reports to get quick analysis
         </h4>
-        <br></br>
-        <br></br>
+        <br/>
+        <br/>
         <Form>
           <Form.File id="ecgFile" name="ecgFile" label="Pdf or jpeg format" />
-          <br></br>
-          <br></br>
+          <br/>
+          <br/>
           <Button variant="danger" className={styles.fontFam}>
             Upload Report
           </Button>
         </Form>
-        <br></br>
-        <br></br> <br></br> <br></br> <br></br> <br></br> 
+        <br/>
+        <br/> <br/> <br/> <br/> <br/> 
       </div>
     );
   }

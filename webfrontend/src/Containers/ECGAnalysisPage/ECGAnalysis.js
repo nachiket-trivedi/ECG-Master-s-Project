@@ -11,19 +11,25 @@ class ECGAnalysis extends React.Component {
   }
 
   render() {
+    if (localStorage.getItem("email") == null) {
+      return <Redirect to="/" />;
+    }
+
     if (
-      localStorage.getItem("medicalFlag") == 0 ||
-      localStorage.getItem("medicalFlag") == "false"
+      localStorage.getItem("role") == "patient" &&
+      (localStorage.getItem("medicalFlag") == 0 ||
+        localStorage.getItem("medicalFlag") == "false")
     ) {
       return <Redirect to="/completeMedicalProfile" />;
     }
 
     return (
-      <div className={styles.profilebg}>
-          <br></br>
+      <div className={styles.colorbg}>
+        <br />
         <UploadECG />
-       <br></br>
+        <br />
         <ECGReports />
+        <br />
       </div>
     );
   }

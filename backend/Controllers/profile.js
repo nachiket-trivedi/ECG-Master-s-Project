@@ -179,6 +179,7 @@ router.post("/addMedicalProfile", requireAuth, async function(req, res) {
   let userId = req.body.userId;
   let gender = req.body.gender;
   let bloodType = req.body.bloodType;
+  let history = req.body.history;
 
   // Assume data is in format "YYYY-MM-DD"
   var parts = req.body.dob.split("-");
@@ -222,7 +223,7 @@ router.post("/addMedicalProfile", requireAuth, async function(req, res) {
       if (result.length == 0) {
         // user not in DB
         var queryString1 =
-          "INSERT INTO medical_profiles (user_id,gender,DOB,height,weight,BMI,blood_type,weight_unit,height_unit) VALUES (?,?,?,?,?,?,?,?,?)";
+          "INSERT INTO medical_profiles (user_id,gender,DOB,height,weight,BMI,blood_type,weight_unit,height_unit,history) VALUES (?,?,?,?,?,?,?,?,?,?)";
         con.query(
           queryString1,
           [
@@ -234,7 +235,8 @@ router.post("/addMedicalProfile", requireAuth, async function(req, res) {
             BMI,
             bloodType,
             weightUnit,
-            heightUnit
+            heightUnit,
+            history
           ],
           function(error, results) {
             if (error) {
@@ -312,6 +314,7 @@ router.get("/medicalProfile/:user",requireAuth, async function(req, res) {
         let blood_type = result[0].blood_type;
         let weight_unit = result[0].weight_unit;
         let height_unit = result[0].height_unit;
+        let history = result[0].history;
         var message = "Fetched data";
 
         pkg = {
@@ -323,7 +326,8 @@ router.get("/medicalProfile/:user",requireAuth, async function(req, res) {
           BMI: BMI,
           blood_type: blood_type,
           weight_unit: weight_unit,
-          height_unit: height_unit
+          height_unit: height_unit,
+          history: history
         };
 
         console.log(pkg);
@@ -343,6 +347,7 @@ router.post("/updateMedicalProfile", requireAuth, async function(req, res) {
   let userId = req.body.userId;
   let gender = req.body.gender;
   let bloodType = req.body.bloodType;
+  let history = req.body.history;
 
  // Assume data is in format "YYYY-MM-DD"
   var parts = req.body.dob.split("-");
@@ -380,7 +385,7 @@ router.post("/updateMedicalProfile", requireAuth, async function(req, res) {
 
   try {
     var queryString1 =
-      "UPDATE medical_profiles SET gender = ?, DOB= ?, height= ?, weight= ?,BMI= ?,blood_type= ?, weight_unit= ?,height_unit= ? where user_id = ?";
+      "UPDATE medical_profiles SET gender = ?, DOB= ?, height= ?, weight= ?,BMI= ?,blood_type= ?, weight_unit= ?,height_unit= ?, history=? where user_id = ?";
     con.query(
       queryString1,
       [
@@ -392,6 +397,7 @@ router.post("/updateMedicalProfile", requireAuth, async function(req, res) {
         bloodType,
         weightUnit,
         heightUnit,
+        history,
         userId
       ],
       function(error, result) {

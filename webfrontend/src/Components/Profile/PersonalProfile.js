@@ -406,11 +406,11 @@ class PersonalProfile extends React.Component {
           </Modal.Header>
           <Modal.Body>{modalContent}</Modal.Body>
         </Modal>
-        <br></br>
+        <br/>
         <Row>
           <Col sm={10}>
             <h3 className={styles.fontFam}>Personal Details</h3>
-            <br></br>
+            <br/>
             {personalProfileDetails}
           </Col>
           <Col>

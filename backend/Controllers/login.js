@@ -15,7 +15,6 @@ router.post("/", async function(req, res) {
   var firstName;
   var lastName;
   var pkg;
-
  
   let con = await dbConnection();
 

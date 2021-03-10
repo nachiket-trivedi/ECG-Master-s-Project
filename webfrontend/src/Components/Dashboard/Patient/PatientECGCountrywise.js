@@ -41,7 +41,7 @@ class PatientECGCountrywise extends React.Component {
           <Col sm={12}>
             <center>
               <h4 className={styles.profileTextHeading}>
-                ECG for your Age-Group
+                ECG for your Country
               </h4>
             </center>
           </Col>

@@ -51,7 +51,7 @@ class AdminECGCount extends React.Component {
         <br/>
         <Row>
           <Col sm={8}>
-            <h4 className={styles.profileTextHeading}>ECG Reports Per Monthd</h4>
+            <h4 className={styles.profileTextHeading}>ECG Reports Per Months</h4>
           </Col>
         </Row>
         <br/>

@@ -13,6 +13,7 @@ class Landing extends React.Component {
       return <Redirect to="/completeMedicalProfile" />;
     }
 
+
     return (
       <div className={styles.imagebg}>
          <Row>

@@ -1,7 +1,7 @@
 var mysql = require('promise-mysql');
 
 var dbConfig = {
-    connectionLimit: 20,
+    connectionLimit: 200,
     host: 'ecg-database-1.cba9kabwgk3a.us-east-1.rds.amazonaws.com',
     user: 'root',
     password: 'ecgAdminPassword',

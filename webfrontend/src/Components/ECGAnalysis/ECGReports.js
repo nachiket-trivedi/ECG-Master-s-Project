@@ -2,6 +2,7 @@ import React from "react";
 import { Container, Form, Button, Row, Col, Card } from "react-bootstrap";
 import axios from "axios";
 import { Redirect } from "react-router";
+import ReportChart from "./ReportChart";
 import styles from "../../Styles/styles.module.css";
 import { backendIp, backendPort } from "../../config";
 
@@ -9,8 +10,8 @@ const hostAddress = `${backendIp}:${backendPort}`;
 const config = {
   headers: {
     Authorization: "Bearer " + localStorage.getItem("jwtToken"),
-    "Content-Type": "application/json"
-  }
+    "Content-Type": "application/json",
+  },
 };
 
 class ECGReports extends React.Component {
@@ -19,12 +20,11 @@ class ECGReports extends React.Component {
     this.state = {
       email: localStorage.getItem("email"),
       userId: localStorage.getItem("userId"),
-      ecgFile: ""
+      ecgFile: "",
     };
   }
 
   render() {
-
     if (
       localStorage.getItem("email") == null ||
       !localStorage.getItem("medicalFlag")
@@ -34,18 +34,17 @@ class ECGReports extends React.Component {
 
     return (
       <div className={styles.whiteBox}>
-          <h2 className={styles.headingText}>
-              ECG Reports
-          </h2>
-          <hr/>
-          <br/>
-          <center className={styles.profileTextHeading}>
-              <h5>
-              Nothing to show!
-              </h5>
-          
-          </center>
-          <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/>
+        <h2 className={styles.headingText}>ECG Reports</h2>
+        <hr />
+        <br />
+        <center className={styles.profileTextHeading}>
+          <h5>
+            Nothing to show!
+            <ReportChart></ReportChart>
+          </h5>
+        </center>
+        <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />{" "}
+        <br /> <br />
       </div>
     );
   }

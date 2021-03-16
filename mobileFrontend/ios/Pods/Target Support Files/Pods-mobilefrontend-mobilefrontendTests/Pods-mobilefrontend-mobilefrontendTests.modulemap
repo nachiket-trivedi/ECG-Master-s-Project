@@ -1,0 +1,6 @@
+module Pods_mobilefrontend_mobilefrontendTests {
+  umbrella header "Pods-mobilefrontend-mobilefrontendTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

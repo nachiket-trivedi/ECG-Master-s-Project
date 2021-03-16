@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import * as profileActions from "../store/actions/profile";
-
+import * as authActions from "../store/actions/authentication";
 import colors from "../constants/colors";
 
 import MainButton from "../components/MainButton";
@@ -27,11 +27,15 @@ function PersonalProfileScreen(props) {
   });
 
   const userId = useSelector(state => {
-    return state.profile.userId;
+    return state.auth.userId;
+  });
+
+  const token = useSelector(state => {
+    return state.auth.userToken;
   });
 
   const loadData = useCallback(async () => {
-    await dispatch(profileActions.viewPersonalProfile(userId))
+    await dispatch(profileActions.viewPersonalProfile(userId, token))
   }, [dispatch]);
 
   useEffect(() => {
@@ -41,6 +45,10 @@ function PersonalProfileScreen(props) {
   useEffect(() => {
     props.navigation.addListener("focus", loadData);
   },[loadData]);
+
+  const logoutHandle =  () => {
+    dispatch(authActions.logout());
+  };
 
 //   if (isLoading) {
 //     return (
@@ -68,11 +76,9 @@ function PersonalProfileScreen(props) {
         </View>
         <View style={styles.buttonSpace}>
           <MainButton
-            onPress={() => {
-              props.navigation.navigate({ name: "MedicalProfileScreen" });
-            }}
+            onPress={logoutHandle}
           >
-            Medical
+            Logout
           </MainButton>
         </View>
       </View>
@@ -183,7 +189,8 @@ const styles = StyleSheet.create({
   },
   headingTitle: {
     fontSize: 22,
-    fontFamily: "open-sans"
+    fontFamily: "open-sans",
+    color: colors.titleColor
   },
   profileCard: {
     paddingHorizontal: 10,

@@ -6,7 +6,6 @@ import {
 } from "../actions/profile";
 
 const initialState = {
-  userId: "12",
   personalDetails: {
     firstName: "",
     lastName: "",

@@ -23,7 +23,7 @@ function EditMedicalProfileScreen(props) {
   });
 
   const userId = useSelector(state => {
-    return state.profile.userId;
+    return state.auth.userId;
   });
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -35,6 +35,10 @@ function EditMedicalProfileScreen(props) {
   const hideDatePicker = () => {
     setDatePickerVisibility(false);
   };
+
+  const token = useSelector(state => {
+    return state.auth.userToken;
+  });
 
   const handleDOBConfirm = date => {
     let dob = new Date(date).toISOString().split("T")[0];
@@ -66,7 +70,8 @@ function EditMedicalProfileScreen(props) {
         height,
         weight,
         weightUnit,
-        heightUnit
+        heightUnit,
+        token
       )
     );
     props.navigation.pop();
@@ -75,7 +80,7 @@ function EditMedicalProfileScreen(props) {
   return (
     <ScrollView style={styles.screen}>
       <View style={styles.heading}>
-        <Text style={styles.headingTitle}>Medical Details</Text>
+        <Text style={styles.headingTitle} numberOfLines= {2}>Update Medical Details</Text>
         <MainButton onPress={submitHandler}> Save </MainButton>
       </View>
       <Card style={styles.profileCard}>

@@ -12,7 +12,7 @@ import colors from "../constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
 import * as profileActions from "../store/actions/profile";
-
+import { useFocusEffect } from '@react-navigation/native';
 import Card from "../components/Card";
 
 function MedicalProfileScreen(props) {
@@ -23,7 +23,11 @@ function MedicalProfileScreen(props) {
   });
 
   const userId = useSelector(state => {
-    return state.profile.userId;
+    return state.auth.userId;
+  });
+
+  const token = useSelector(state => {
+    return state.auth.userToken;
   });
 
   const userMedical = useSelector(state => {
@@ -31,12 +35,12 @@ function MedicalProfileScreen(props) {
   });
 
   const loadData = useCallback(async () => {
-    await dispatch(profileActions.viewMedicalProfile(userId));
+    await dispatch(profileActions.viewMedicalProfile(userId, token));
   }, [dispatch]);
 
   useEffect(() => {
     loadData();
-  }, []);
+  },[]);
 
   useEffect(() => {
     props.navigation.addListener("focus", loadData);
@@ -48,21 +52,17 @@ function MedicalProfileScreen(props) {
         <View style={styles.imageContainer}>
           <Image
             style={styles.image}
-            source={require("../assets/female.png")}
+            source={require("../assets/medical.png")}
             resizeMode="cover"
           />
         </View>
         <View style={styles.name}>
           <Text style={styles.headingTitle}>
-            {user.firstName} {user.lastName}
+            Medical Details
           </Text>
-          <Text>{user.email}</Text>
+         
         </View>
-      </View>
-      <Card style={styles.profileCard}>
-        <View style={styles.detailsHeading}>
-          <Text style={styles.detailsTitle}>Medical Details</Text>
-          <View style={styles.buttonSpace}>
+        <View style={styles.buttonSpace}>
             <MainButton
               onPress={() => {
                 props.navigation.navigate({ name: "EditMedicalProfileScreen" });
@@ -72,7 +72,21 @@ function MedicalProfileScreen(props) {
               {/* <Ionicons name="pencil-outline" size={16} color="white" />{" "} */}
             </MainButton>
           </View>
-        </View>
+      </View>
+      <Card style={styles.profileCard}>
+        {/* <View style={styles.detailsHeading}> */}
+          {/* <Text style={styles.detailsTitle}>Medical Details</Text> */}
+          {/* <View style={styles.buttonSpace}>
+            <MainButton
+              onPress={() => {
+                props.navigation.navigate({ name: "EditMedicalProfileScreen" });
+              }}
+            >
+              Edit
+              {/* <Ionicons name="pencil-outline" size={16} color="white" />{" "} */}
+            {/* </MainButton> */}
+          {/* </View> */} 
+        {/* </View> */}
         <View style={styles.detailsGrid}>
           <View style={styles.gridRow}>
             <View style={styles.gridItemLeft}>
@@ -175,7 +189,8 @@ const styles = StyleSheet.create({
   },
   headingTitle: {
     fontSize: 22,
-    fontFamily: "open-sans"
+    fontFamily: "open-sans",
+    color: colors.titleColor
   },
   profileCard: {
     paddingHorizontal: 10,
@@ -205,7 +220,7 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start"
   },
   name: {
-    flex: 3,
+    flex: 2,
     justifyContent: "space-between",
     alignItems: "flex-start",
     paddingLeft: 10

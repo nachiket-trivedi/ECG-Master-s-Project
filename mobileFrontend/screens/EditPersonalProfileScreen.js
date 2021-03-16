@@ -28,7 +28,11 @@ function EditPersonalProfileScreen(props) {
   });
 
   const userId = useSelector(state => {
-    return state.profile.userId;
+    return state.auth.userId;
+  });
+
+  const token = useSelector(state => {
+    return state.auth.userToken;
   });
 
   const [firstName, setFirstName] = useState(user.firstName);
@@ -56,7 +60,8 @@ function EditPersonalProfileScreen(props) {
         zipcode,
         country,
         contact,
-        email))
+        email,
+        token))
         props.navigation.pop();
   };
 

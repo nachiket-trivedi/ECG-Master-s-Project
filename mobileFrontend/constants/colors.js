@@ -1,5 +1,6 @@
 export default {
-    primary: '#f7287b',
+    primary: '#f66458', //f7287b
     accent: '#c717fc',
-    textInPrimary: 'white'
+    textInPrimary: 'white',
+    titleColor: '#909090'
 }

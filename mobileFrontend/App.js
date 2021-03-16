@@ -9,13 +9,15 @@ import * as Font from "expo-font";
 
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import profileReducer from "./store/reducers/profile";
+import authReducer from "./store/reducers/authentication";
 import {Provider} from "react-redux";
 import reduxThunk from 'redux-thunk';
 
 enableScreens();
 
 const rootReducer = combineReducers({
-  profile: profileReducer
+  profile: profileReducer,
+  auth: authReducer
 });
 
 const store = createStore(rootReducer, applyMiddleware(reduxThunk));

@@ -50,6 +50,9 @@ const UploadECG = () => {
   const handleFileRead = () => {
     const csvContent = fileReader.result;
     console.log("csvContent", csvContent);
+    let contentArr = csvContent.split("\n");
+    contentArr = contentArr.slice(12);
+    console.log("contentArr", contentArr);
     // axios.defaults.withCredentials = true;
     // axios
     //   .post()

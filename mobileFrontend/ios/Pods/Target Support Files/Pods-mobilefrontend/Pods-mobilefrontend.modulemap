@@ -1,6 +1,0 @@
-module Pods_mobilefrontend {
-  umbrella header "Pods-mobilefrontend-umbrella.h"
-
-  export *
-  module * { export * }
-}

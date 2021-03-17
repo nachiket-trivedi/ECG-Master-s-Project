@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container, Col, Row } from "react-bootstrap";
 import { Redirect } from "react-router";
 import styles from "../../Styles/styles.module.css";
@@ -6,6 +6,8 @@ import UploadECG from "../../Components/ECGAnalysis/UploadECG";
 import ECGReports from "../../Components/ECGAnalysis/ECGReports";
 
 const ECGAnalysis = () => {
+  const [csvClassification, setCsvClassification] = useState([]);
+  const [csvContentArr, setCsvContentArr] = useState([]);
   if (localStorage.getItem("email") == null) {
     return <Redirect to="/" />;
   }
@@ -24,9 +26,16 @@ const ECGAnalysis = () => {
   return (
     <div className={styles.colorbg}>
       <br />
-      <UploadECG />
+      <UploadECG
+        abc={"abc"}
+        setCsvClassification={setCsvClassification}
+        setCsvContentArr={setCsvContentArr}
+      />
       <br />
-      <ECGReports />
+      <ECGReports
+        csvClassification={csvClassification}
+        csvContentArr={csvContentArr}
+      />
       <br />
     </div>
   );

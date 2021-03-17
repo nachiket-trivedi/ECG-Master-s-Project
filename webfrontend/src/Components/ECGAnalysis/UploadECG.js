@@ -43,25 +43,34 @@ const rejectStyle = {
   borderColor: "#ff1744",
 };
 
-const UploadECG = () => {
+const UploadECG = (props) => {
   const [fileNames, setFileNames] = useState(null);
   let fileReader;
 
   const handleFileRead = () => {
     const csvContent = fileReader.result;
-    console.log("csvContent", csvContent);
-    let contentArr = csvContent.split("\n");
-    contentArr = contentArr.slice(12);
-    console.log("contentArr", contentArr);
-    // axios.defaults.withCredentials = true;
-    // axios
-    //   .post()
-    //   .then((response) => {
-    //     console.log("responseData: ", response.data);
-    //   })
-    //   .catch(function (err) {
-    //     console.log(err);
-    //   });
+    let csvContentArr = csvContent.split("\n");
+    csvContentArr = csvContentArr.slice(13, csvContentArr.length - 1);
+    localStorage.setItem("csvContentArr", JSON.stringify(csvContentArr));
+    console.log("csvContentArr", csvContentArr);
+    let data = {
+      data: csvContentArr,
+    };
+    props.setCsvContentArr(csvContentArr);
+    axios.defaults.withCredentials = false;
+    axios
+      .post("http://10.0.0.100:3000/inference", data)
+      .then((response) => {
+        console.log("responseData: ", response.data);
+        localStorage.setItem(
+          "csvClassification",
+          JSON.stringify(response.data)
+        );
+        props.setCsvClassification(response.data);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
   };
 
   const onDrop = useCallback((acceptedFiles) => {

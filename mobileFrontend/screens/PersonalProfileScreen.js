@@ -35,7 +35,7 @@ function PersonalProfileScreen(props) {
   });
 
   const loadData = useCallback(async () => {
-    await dispatch(profileActions.viewPersonalProfile(userId, token))
+    await dispatch(profileActions.viewPersonalProfile(userId, token));
   }, [dispatch]);
 
   useEffect(() => {
@@ -44,19 +44,19 @@ function PersonalProfileScreen(props) {
 
   useEffect(() => {
     props.navigation.addListener("focus", loadData);
-  },[loadData]);
+  }, [loadData]);
 
-  const logoutHandle =  () => {
+  const logoutHandle = () => {
     dispatch(authActions.logout());
   };
 
-//   if (isLoading) {
-//     return (
-//       <View style={styles.activityScreen}>
-//         <ActivityIndicator size="large" color={colors.primary} />
-//       </View>
-//     );
-//   }
+  //   if (isLoading) {
+  //     return (
+  //       <View style={styles.activityScreen}>
+  //         <ActivityIndicator size="large" color={colors.primary} />
+  //       </View>
+  //     );
+  //   }
 
   return (
     <ScrollView style={styles.screen}>
@@ -75,11 +75,7 @@ function PersonalProfileScreen(props) {
           <Text>{user.email}</Text>
         </View>
         <View style={styles.buttonSpace}>
-          <MainButton
-            onPress={logoutHandle}
-          >
-            Logout
-          </MainButton>
+          <MainButton onPress={logoutHandle}>Logout</MainButton>
         </View>
       </View>
       <Card style={styles.profileCard}>

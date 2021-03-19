@@ -283,7 +283,7 @@ function SignUpScreen(props) {
               <View style={styles.gridRow}>
                 <View style={styles.leftField}>
                   <Ionicons
-                    name="map-outline"
+                    name="flag-outline"
                     size={36}
                     color={colors.primary}
                   />

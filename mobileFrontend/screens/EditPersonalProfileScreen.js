@@ -50,7 +50,9 @@ function EditPersonalProfileScreen(props) {
   const dispatch = useDispatch();
 
   const submitHandler = () => {
-      dispatch(profileActions.editPersonalProfile(userId,
+    dispatch(
+      profileActions.editPersonalProfile(
+        userId,
         firstName,
         lastName,
         addressLine1,
@@ -61,8 +63,10 @@ function EditPersonalProfileScreen(props) {
         country,
         contact,
         email,
-        token))
-        props.navigation.pop();
+        token
+      )
+    );
+    props.navigation.pop();
   };
 
   return (

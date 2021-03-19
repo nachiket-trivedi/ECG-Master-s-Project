@@ -12,7 +12,7 @@ import colors from "../constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
 import * as profileActions from "../store/actions/profile";
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect } from "@react-navigation/native";
 import Card from "../components/Card";
 
 function MedicalProfileScreen(props) {
@@ -40,11 +40,11 @@ function MedicalProfileScreen(props) {
 
   useEffect(() => {
     loadData();
-  },[]);
+  }, []);
 
   useEffect(() => {
     props.navigation.addListener("focus", loadData);
-  },[loadData]);
+  }, [loadData]);
 
   return (
     <ScrollView style={styles.screen}>
@@ -57,26 +57,23 @@ function MedicalProfileScreen(props) {
           />
         </View>
         <View style={styles.name}>
-          <Text style={styles.headingTitle}>
-            Medical Details
-          </Text>
-         
+          <Text style={styles.headingTitle}>Medical Details</Text>
         </View>
         <View style={styles.buttonSpace}>
-            <MainButton
-              onPress={() => {
-                props.navigation.navigate({ name: "EditMedicalProfileScreen" });
-              }}
-            >
-              Edit
-              {/* <Ionicons name="pencil-outline" size={16} color="white" />{" "} */}
-            </MainButton>
-          </View>
+          <MainButton
+            onPress={() => {
+              props.navigation.navigate({ name: "EditMedicalProfileScreen" });
+            }}
+          >
+            Edit
+            {/* <Ionicons name="pencil-outline" size={16} color="white" />{" "} */}
+          </MainButton>
+        </View>
       </View>
       <Card style={styles.profileCard}>
         {/* <View style={styles.detailsHeading}> */}
-          {/* <Text style={styles.detailsTitle}>Medical Details</Text> */}
-          {/* <View style={styles.buttonSpace}>
+        {/* <Text style={styles.detailsTitle}>Medical Details</Text> */}
+        {/* <View style={styles.buttonSpace}>
             <MainButton
               onPress={() => {
                 props.navigation.navigate({ name: "EditMedicalProfileScreen" });
@@ -84,8 +81,8 @@ function MedicalProfileScreen(props) {
             >
               Edit
               {/* <Ionicons name="pencil-outline" size={16} color="white" />{" "} */}
-            {/* </MainButton> */}
-          {/* </View> */} 
+        {/* </MainButton> */}
+        {/* </View> */}
         {/* </View> */}
         <View style={styles.detailsGrid}>
           <View style={styles.gridRow}>

@@ -53,13 +53,14 @@ function EditMedicalProfileScreen(props) {
   const [height, setHeight] = useState(userMedical.height);
   const [weight, setWeight] = useState(userMedical.weight);
   const [history, setHistory] = useState(userMedical.history);
-  const [date, setDate] = useState(new Date(userMedical.dob).toISOString().split("T")[0]);
-
+  const [date, setDate] = useState(
+    new Date(userMedical.dob).toISOString().split("T")[0]
+  );
 
   const dispatch = useDispatch();
 
   const submitHandler = () => {
-    console.log(date)
+    console.log(date);
     dispatch(
       profileActions.editMedicalProfile(
         userId,
@@ -80,7 +81,9 @@ function EditMedicalProfileScreen(props) {
   return (
     <ScrollView style={styles.screen}>
       <View style={styles.heading}>
-        <Text style={styles.headingTitle} numberOfLines= {2}>Update Medical Details</Text>
+        <Text style={styles.headingTitle} numberOfLines={2}>
+          Update Medical Details
+        </Text>
         <MainButton onPress={submitHandler}> Save </MainButton>
       </View>
       <Card style={styles.profileCard}>

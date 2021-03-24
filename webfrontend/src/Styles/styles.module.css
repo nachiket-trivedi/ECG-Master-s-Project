@@ -2,12 +2,12 @@
   float: right;
 }
 
-.formButtonNonFloat{
-    margin: 0;
-    position: absolute;
-    top: 60%;
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
+.formButtonNonFloat {
+  margin: 0;
+  position: absolute;
+  top: 60%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 .formText {
@@ -32,22 +32,21 @@
 }
 
 .colorbg {
-  background-color: rgb(255, 210, 210); 
+  background-color: rgb(255, 210, 210);
 }
 
 .profileColorbg {
-    background-color: rgb(255, 210, 210); 
-    height:100vh;
-  }
+  background-color: rgb(255, 210, 210);
+  height: 100vh;
+}
 
 .imagebg {
-    background-image: url("lightBg.jpg"); 
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    height: 100vh;
-  }
-
+  background-image: url("lightBg.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 100vh;
+}
 
 .leftHome {
   float: left;
@@ -95,26 +94,55 @@
   padding: 2%;
 }
 
-.profileTextHeading{
-    color: rgb(119, 119, 119);
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+.profileTextHeading {
+  color: rgb(119, 119, 119);
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
 
-.profileTextNumbers{
-    color:rgb(245, 121, 121);
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+.profileTextNumbers {
+  color: rgb(245, 121, 121);
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
 
-.headingText{
-    color:rgb(245, 121, 121);
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+.headingText {
+  color: rgb(245, 121, 121);
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
 
-.fontFam{
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+.fontFam {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
 
-.graphLabel{
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-   text-align: center;
+.graphLabel {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  text-align: center;
+}
+.metaDataRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.metaDataRowKey {
+  padding: 3px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+.metaDataRowVal {
+  padding: 3px;
+  font-weight: 100;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+.metaDataCard {
+  padding: 20px;
+  width: 35%;
+}
+.metaDatasContainer {
+  display: flex;
+  justify-content: space-between;
+}
+.classificationDataCard {
+  padding: 20px;
+  margin: 30px;
+  width: 40%;
+  height: 400px;
+  overflow-y: auto;
 }

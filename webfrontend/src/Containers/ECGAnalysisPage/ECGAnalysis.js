@@ -8,6 +8,7 @@ import ECGReports from "../../Components/ECGAnalysis/ECGReports";
 const ECGAnalysis = () => {
   const [csvClassification, setCsvClassification] = useState([]);
   const [csvContentArr, setCsvContentArr] = useState([]);
+  const [csvMetaDataObj, setCsvMetaDataObj] = useState({});
   if (localStorage.getItem("email") == null) {
     return <Redirect to="/" />;
   }
@@ -30,11 +31,13 @@ const ECGAnalysis = () => {
         abc={"abc"}
         setCsvClassification={setCsvClassification}
         setCsvContentArr={setCsvContentArr}
+        setCsvMetaDataObj={setCsvMetaDataObj}
       />
       <br />
       <ECGReports
         csvClassification={csvClassification}
         csvContentArr={csvContentArr}
+        csvMetaDataObj={csvMetaDataObj}
       />
       <br />
     </div>

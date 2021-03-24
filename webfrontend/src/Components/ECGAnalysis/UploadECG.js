@@ -50,9 +50,23 @@ const UploadECG = (props) => {
   const handleFileRead = () => {
     const csvContent = fileReader.result;
     let csvContentArr = csvContent.split("\n");
+    let csvMetaDataArr = csvContentArr.slice(0, 13);
     csvContentArr = csvContentArr.slice(13, csvContentArr.length - 1);
-    localStorage.setItem("csvContentArr", JSON.stringify(csvContentArr));
     console.log("csvContentArr", csvContentArr);
+    console.log("csvMetaDataArr", csvMetaDataArr);
+    let csvMetaDataObj = {};
+    for (let i in csvMetaDataArr) {
+      let row = csvMetaDataArr[i];
+      if (row != null) {
+        let fieldKey = row.split(",")[0];
+        let fieldValue = row.split(",").slice(1).join().replace(/\"/g, "");
+        if (fieldValue != null && fieldValue != "") {
+          csvMetaDataObj[fieldKey] = fieldValue;
+        }
+      }
+    }
+    console.log("csvMetaDataObj", csvMetaDataObj);
+    props.setCsvMetaDataObj(csvMetaDataObj);
     let data = {
       data: csvContentArr,
     };
@@ -61,15 +75,11 @@ const UploadECG = (props) => {
     axios
       .post("http://10.0.0.100:3000/inference", data)
       .then((response) => {
-        console.log("responseData: ", response.data);
-        localStorage.setItem(
-          "csvClassification",
-          JSON.stringify(response.data)
-        );
+        console.log("inference responseData: ", response.data);
         props.setCsvClassification(response.data);
       })
       .catch(function (err) {
-        console.log(err);
+        console.log("inference err: ", err);
       });
   };
 

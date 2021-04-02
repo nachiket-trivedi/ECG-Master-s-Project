@@ -1,7 +1,7 @@
 import React from "react";
 import { Pie } from "react-chartjs-2";
 import { Redirect } from "react-router";
-import styles from "../../../Styles/styles.module.css";
+import styles from "../../styles/styles.module.css";
 import { Form, Button, Row, Col } from "react-bootstrap";
 
 //https://www.educative.io/edpresso/how-to-use-chartjs-to-create-charts-in-react
@@ -28,26 +28,8 @@ class PatientECGAgewise extends React.Component {
   }
 
   render() {
-    // if (
-    //   localStorage.getItem("medicalFlag") == 0 ||
-    //   localStorage.getItem("medicalFlag") == "false"
-    // ) {
-    //   return <Redirect to="/completeMedicalProfile" />;
-    // }
-
     return (
       <div>
-        <br />
-        <Row>
-          <Col sm={12}>
-            <center>
-              <h4 className={styles.profileTextHeading}>
-                ECG for your Age-Group
-              </h4>
-            </center>
-          </Col>
-        </Row>
-        <br />
         <div className={styles.graphLabel}>
           <Row>
             <Pie

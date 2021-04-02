@@ -44,12 +44,12 @@ class PatientECGCount extends React.Component {
   }
 
   render() {
-    if (
-      localStorage.getItem("medicalFlag") == 0 ||
-      localStorage.getItem("medicalFlag") == "false"
-    ) {
-      return <Redirect to="/completeMedicalProfile" />;
-    }
+    // if (
+    //   localStorage.getItem("medicalFlag") == 0 ||
+    //   localStorage.getItem("medicalFlag") == "false"
+    // ) {
+    //   return <Redirect to="/completeMedicalProfile" />;
+    // }
 
     return (
       <div>

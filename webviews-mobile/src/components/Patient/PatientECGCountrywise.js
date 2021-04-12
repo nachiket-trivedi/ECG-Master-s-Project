@@ -29,7 +29,6 @@ class PatientECGCountrywise extends React.Component {
   render() {
     return (
       <div>
-        <br />
         <div className={styles.graphLabel}>
           <Row>
             <Pie

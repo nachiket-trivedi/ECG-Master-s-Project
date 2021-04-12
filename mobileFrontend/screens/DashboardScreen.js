@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
   chartCard: {
     marginHorizontal: 10,
     marginTop: 10,
-    height: 250,
+    height: Math.max(Dimensions.get("screen").height/3 , 250),
     overflow: "hidden"
   },
   graphView: {

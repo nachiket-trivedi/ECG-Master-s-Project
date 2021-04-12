@@ -5,7 +5,7 @@ import csvToJson from "convert-csv-to-json";
 import { Container, Form, Button, Row, Col, Card } from "react-bootstrap";
 import axios from "axios";
 import { Redirect } from "react-router";
-import styles from "../../Styles/styles.module.css";
+import styles from "../../styles/styles.module.css";
 import { backendIp, backendPort } from "../../config";
 
 const hostAddress = `${backendIp}:${backendPort}`;

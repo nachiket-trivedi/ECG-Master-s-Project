@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Container, Col, Row } from "react-bootstrap";
 import { Redirect } from "react-router";
-import styles from "../../Styles/styles.module.css";
-import UploadECG from "../../Components/ECGAnalysis/UploadECG";
-import ECGReports from "../../Components/ECGAnalysis/ECGReports";
+import styles from "../../styles/styles.module.css";
+import UploadECG from "./UploadECG";
+import ECGReports from "./ECGReports";
 
 const ECGAnalysis = () => {
   const [csvClassification, setCsvClassification] = useState(null);

@@ -72,7 +72,7 @@ const UploadECG = (props) => {
 
     axios.defaults.withCredentials = false;
     axios
-      .post("http://10.0.0.100:3000/inference", data)
+      .post("http://35.192.221.5:3000/inference", data)
       .then((response) => {
         props.setCsvClassification(response.data);
       })
@@ -118,25 +118,24 @@ const UploadECG = (props) => {
   );
 
   return (
-    <div className={styles.whiteBox}>
-      <h2 className={styles.headingText}>ECG Analysis</h2>
+    <div>
+      {/* <h2 className={styles.headingText}>ECG Analysis</h2>
       <hr />
-      <br />
-      <h4 className={styles.profileTextHeading}>
+      <br /> */}
+       <h5 className={styles.headingText}>
         Upload ECG Reports to get quick analysis
-      </h4>
+      </h5>
       <br />
-      <br />
-      <div className="container">
+      {/* <div className="container"> */}
         <div {...getRootProps({ style })}>
           <input {...getInputProps()} />
-          <p>Drag and drop some csv files here, or click to select</p>
+          <p> Click to select your csv file</p>
         </div>
         <br />
         <div>{fileNames}</div>
-      </div>
+      {/* </div> */}
       <br />
-      <br /> <br /> <br /> <br /> <br />
+      <br /> 
     </div>
   );
 };

@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Container, Form, Button, Row, Col, Card } from "react-bootstrap";
+import {
+  Container,
+  Form,
+  Button,
+  Row,
+  Col,
+  Card,
+  Table
+} from "react-bootstrap";
 import axios from "axios";
 import { Redirect } from "react-router";
 import ReportChart from "./ReportChart";
@@ -10,11 +18,11 @@ const hostAddress = `${backendIp}:${backendPort}`;
 const config = {
   headers: {
     Authorization: "Bearer " + localStorage.getItem("jwtToken"),
-    "Content-Type": "application/json",
-  },
+    "Content-Type": "application/json"
+  }
 };
 
-const ECGReports = (props) => {
+const ECGReports = props => {
   const [curPageIndex, setcurPageIndex] = useState(0);
   const [csvMetaData, setCsvMetaData] = useState(null);
   const [csvClassificationData, setCsvClassificationData] = useState(null);
@@ -26,15 +34,15 @@ const ECGReports = (props) => {
       end = -1;
 
     setCsvMetaData(
-      Object.keys(csvMetaDataObj).map((rowKey) => {
+      Object.keys(csvMetaDataObj).map(rowKey => {
         let rowValue = csvMetaDataObj[rowKey];
         return (
-          <div className={styles.metaDataRow}>
-            <div className={styles.metaDataRowKey}>{rowKey}</div>
-            <div className={styles.metaDataRowVal}>
+          <tr className={styles.metaDataRow}>
+            <td className={styles.metaDataRowKey}>{rowKey}</td>
+            <td className={styles.metaDataRowVal}>
               {rowKey === "Sample Rate" ? "500 hertz" : rowValue}
-            </div>
-          </div>
+            </td>
+          </tr>
         );
       })
     );
@@ -42,22 +50,22 @@ const ECGReports = (props) => {
     setCsvClassificationData(
       csvClassification == null || csvClassification["output"] == null
         ? null
-        : csvClassification["output"].map((classification) => {
+        : csvClassification["output"].map(classification => {
             start = start + 5000;
             end = end + 5000;
             return (
-              <div className={styles.metaDataRow}>
-                <div className={styles.metaDataRowKey}>
+              <tr scope="row" className={styles.metaDataRow}>
+                <td className={styles.metaDataRowKey}>
                   {start} to {end}
-                </div>
-                <div className={styles.metaDataRowVal}>{classification}</div>
-              </div>
+                </td>
+                <td className={styles.metaDataRowVal}>{classification}</td>
+              </tr>
             );
           })
     );
   }, [
     JSON.stringify(props.csvMetaDataObj),
-    JSON.stringify(props.csvClassification),
+    JSON.stringify(props.csvClassification)
   ]);
   const handleNext = () => {
     setcurPageIndex(curPageIndex + 1);
@@ -67,18 +75,20 @@ const ECGReports = (props) => {
   };
 
   return (
-    <div className={styles.whiteBox}>
-      <h2 className={styles.headingText}>ECG Reports</h2>
+    <div>
+      <h5 className={styles.headingText}>ECG Reports</h5>
       <hr />
       <br />
       <div className={styles.metaDatasContainer}>
         {csvMetaData === null || csvMetaData.length === 0 ? null : (
           <Card className={styles.classificationDataCard}>
             <center>
-              <Card.Title>Meta Data</Card.Title>
+              <Card.Title>Report Details</Card.Title>
             </center>
             <br />
-            {csvMetaData}
+            <Table borderless>
+              <tbody>{csvMetaData}</tbody>
+            </Table>
           </Card>
         )}
         {csvClassificationData === null ||
@@ -88,7 +98,9 @@ const ECGReports = (props) => {
               <Card.Title>Classification Analysis</Card.Title>
             </center>
             <br />
-            {csvClassificationData}
+            <Table borderless>
+            <tbody>{csvClassificationData}</tbody>
+            </Table>
           </Card>
         )}
       </div>

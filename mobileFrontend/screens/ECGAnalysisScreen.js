@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, StyleSheet, Text } from "react-native";
+import {ScrollView, StyleSheet, Text, Dimensions, View } from "react-native";
 import { WebView } from "react-native-webview";
 import Card from "../components/Card";
 import colors from "../constants/colors";
@@ -8,9 +8,10 @@ function ECGAnalysisScreen(props) {
   return (
     <ScrollView style={styles.screen}>
       <Card style={styles.chartCard}>
-        <WebView
-          source={{ uri: "http://localhost:3001/" }}
-        />
+        {/* <Text style={styles.headingTitle} numberOfLines={2}>
+          Upload ECG Reports to get quick analysis
+        </Text> */}
+        <WebView source={{ uri: "http://localhost:3001/analysis" }} scrollEnabled="false" />
       </Card>
     </ScrollView>
   );
@@ -18,13 +19,20 @@ function ECGAnalysisScreen(props) {
 
 const styles = StyleSheet.create({
   screen: {
-    flex: 1
+    flex: 1,
+    overflow: "scroll"
   },
   chartCard: {
     marginHorizontal: 10,
     marginTop: 10,
-    height: 250,
+    height: 1550,
+    // height: Dimensions.get("screen").height,
     overflow: "hidden"
+  },
+  headingTitle: {
+    fontSize: 18,
+    fontFamily: "open-sans",
+    marginBottom: 10
   }
 });
 

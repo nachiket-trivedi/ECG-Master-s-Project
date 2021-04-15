@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Line, Bar } from "react-chartjs-2";
+import styles from "../../styles/styles.module.css";
 
-const ReportChart = (props) => {
+const ReportChart = props => {
   const [data, setData] = useState(null);
   const [options, setOptions] = useState(null);
   const [csvClassification, setCsvClassification] = useState([]);
@@ -51,7 +52,6 @@ const ReportChart = (props) => {
             fill: true,
             backgroundColor: "rgba(75,192,192,0.2)",
             borderColor: "rgba(75,192,192,1)",
-
             fill: false,
             lineTension: 0.5,
             backgroundColor: "rgba(75,192,192,0.4)",
@@ -70,8 +70,10 @@ const ReportChart = (props) => {
             pointRadius: 1,
             pointHitRadius: 1,
             lineTension: 0,
-          },
-        ],
+          
+
+          }
+        ]
       });
 
       setOptions({
@@ -79,19 +81,19 @@ const ReportChart = (props) => {
         scales: {
           xAxes: [
             {
-              display: false,
-            },
-          ],
-        },
+              display: false
+            }
+          ]
+        }
       });
     }
   }, [props.curPageIndex, props.csvClassification, csvClassification]);
 
   return (
-    <div>
+    <div className={styles.graphBox}>
       {props.csvClassification === null ? null : (
-        <div style={{ overflow: "auto" }}>
-          ECG Chart
+        <div className={styles.graphBoxInside}>
+          <h5> ECG Chart </h5>
           <Line data={data} options={options} />
         </div>
       )}

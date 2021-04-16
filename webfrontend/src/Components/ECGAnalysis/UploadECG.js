@@ -12,8 +12,8 @@ const hostAddress = `${backendIp}:${backendPort}`;
 const config = {
   headers: {
     Authorization: "Bearer " + localStorage.getItem("jwtToken"),
-    "Content-Type": "application/json",
-  },
+    "Content-Type": "application/json"
+  }
 };
 const baseStyle = {
   flex: 1,
@@ -28,22 +28,22 @@ const baseStyle = {
   backgroundColor: "#fafafa",
   color: "#bdbdbd",
   outline: "none",
-  transition: "border .24s ease-in-out",
+  transition: "border .24s ease-in-out"
 };
 
 const activeStyle = {
-  borderColor: "#2196f3",
+  borderColor: "#2196f3"
 };
 
 const acceptStyle = {
-  borderColor: "#00e676",
+  borderColor: "#00e676"
 };
 
 const rejectStyle = {
-  borderColor: "#ff1744",
+  borderColor: "#ff1744"
 };
 
-const UploadECG = (props) => {
+const UploadECG = props => {
   const [fileNames, setFileNames] = useState(null);
   let fileReader;
 
@@ -59,7 +59,11 @@ const UploadECG = (props) => {
       let row = csvMetaDataArr[i];
       if (row != null) {
         let fieldKey = row.split(",")[0];
-        let fieldValue = row.split(",").slice(1).join().replace(/\"/g, "");
+        let fieldValue = row
+          .split(",")
+          .slice(1)
+          .join()
+          .replace(/\"/g, "");
         if (fieldValue != null && fieldValue != "") {
           csvMetaDataObj[fieldKey] = fieldValue;
         }
@@ -67,29 +71,49 @@ const UploadECG = (props) => {
     }
     props.setCsvMetaDataObj(csvMetaDataObj);
     let data = {
-      data: csvContentArr,
+      data: csvContentArr
     };
 
     axios.defaults.withCredentials = false;
     axios
-      .post("http://10.0.0.100:3000/inference", data)
-      .then((response) => {
+      .post("http://35.192.221.5:3000/inference", data)
+      .then(response => {
         props.setCsvClassification(response.data);
+        let userId = localStorage.getItem("userId");
+        var data = {
+          val1: response.data.ecg_signal[0],
+          val2: response.data.ecg_signal[1],
+          val3: response.data.ecg_signal[2],
+          class: response.data.output,
+          id: userId
+        };
+        axios
+          .post(hostAddress + "/analysis/updateECGanalysis", data)
+          .then(response => {
+            console.log(response.data);
+            if (response.status == 200) {
+              alert("Updated Successfully");
+              console.log("Response data after  post-->" + response.data);
+              window.location.reload();
+            } else {
+              window.alert("Could Not Update Data!");
+            }
+          });
       })
-      .catch(function (err) {
+      .catch(function(err) {
         console.log("inference err: ", err);
       });
   };
 
-  const onDrop = useCallback((acceptedFiles) => {
+  const onDrop = useCallback(acceptedFiles => {
     // console.log(acceptedFiles);
-    acceptedFiles.forEach((file) => {
+    acceptedFiles.forEach(file => {
       fileReader = new FileReader();
       fileReader.readAsText(file);
       fileReader.onloadend = handleFileRead;
     });
     setFileNames(
-      acceptedFiles.map((file) => {
+      acceptedFiles.map(file => {
         return (
           <li key={file.path}>
             {file.path} - {file.size} bytes
@@ -104,7 +128,7 @@ const UploadECG = (props) => {
     getInputProps,
     isDragActive,
     isDragAccept,
-    isDragReject,
+    isDragReject
   } = useDropzone({ onDrop });
 
   const style = useMemo(
@@ -112,7 +136,7 @@ const UploadECG = (props) => {
       ...baseStyle,
       ...(isDragActive ? activeStyle : {}),
       ...(isDragAccept ? acceptStyle : {}),
-      ...(isDragReject ? rejectStyle : {}),
+      ...(isDragReject ? rejectStyle : {})
     }),
     [isDragActive, isDragReject, isDragAccept]
   );

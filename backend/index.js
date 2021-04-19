@@ -31,7 +31,8 @@ app.use(
 //use cors to allow cross origin resource sharing
 app.use(
   cors({
-    origin: `${config.frontendAddress}:${config.frontendPort}`,
+    // origin: `${config.frontendAddress}:${config.frontendPort}`,
+    origin: "*",
     credentials: true
   })
 );

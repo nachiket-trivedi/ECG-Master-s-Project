@@ -25,7 +25,7 @@ class Main extends Component {
           exact
           component={PatientECGCountrywise}
         />
-        <Route path="/analysis/:userId" exact component={ECGAnalysis} />
+        <Route path="/analysis" exact component={ECGAnalysis} />
       </Router>
     );
   }

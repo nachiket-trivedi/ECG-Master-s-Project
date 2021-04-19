@@ -15,7 +15,7 @@ const Tab = createBottomTabNavigator();
 const AllTabs = props => {
   return (
     <Tab.Navigator
-      initialRouteName="ECG Analysis"
+      initialRouteName="Dashboard"
       tabBarOptions={{
         activeTintColor: colors.primary
       }}
@@ -30,7 +30,7 @@ const AllTabs = props => {
           )
         }}
       />
-      <Tab.Screen
+       <Tab.Screen
         name="Dashboard"
         component={DashboardStack}
         options={{

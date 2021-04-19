@@ -100,7 +100,7 @@ class HorizontalNav extends React.Component {
     }
 
     return (
-      <Navbar bg="dark" variant="dark" expand="lg">
+      <Navbar bg="dark" variant="dark" expand="lg" sticky="top">
         <Navbar.Brand
           href="/"
           className="fa fa-heartbeat"

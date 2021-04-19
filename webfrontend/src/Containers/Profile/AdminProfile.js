@@ -29,7 +29,7 @@ class AdminProfile extends React.Component {
     }
 
     return (
-      <div className={styles.profileColorbg}>
+      <div className={styles.adminProfileColorbg}>
         <br />
         <div className={styles.whiteBox}>
           <Row>

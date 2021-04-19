@@ -20,7 +20,7 @@ function ECGAnalysisScreen(props) {
         {/* <Text style={styles.headingTitle} numberOfLines={2}>
           Upload ECG Reports to get quick analysis
         </Text> */}
-        <WebView source={{ uri: `http://localhost:3001/analysis/${userId}` }} scrollEnabled="false" />
+        <WebView source={{ uri: `http://localhost:3001/analysis?userId=${userId}` }} scrollEnabled="false" />
       </Card>
     </ScrollView>
   );

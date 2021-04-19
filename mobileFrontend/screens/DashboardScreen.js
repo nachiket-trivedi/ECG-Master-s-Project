@@ -10,8 +10,13 @@ import {
 import Card from "../components/Card";
 import colors from "../constants/colors";
 import { WebView } from "react-native-webview";
+import { useSelector } from "react-redux";
 
 function Dashboard(props) {
+  const userId = useSelector(state => {
+    return state.auth.userId;
+  });
+
   return (
     <ScrollView style={styles.screen}>
       <Card style={styles.chartCard}>
@@ -19,7 +24,7 @@ function Dashboard(props) {
           Monthly ECG Uploads
         </Text>
         <WebView
-          source={{ uri: "http://localhost:3001/patientECGCountDashboard" }}
+          source={{ uri: `http://localhost:3001/patientECGCountDashboard?userId=${userId}` }}
           style={styles.graphView}
         />
       </Card>

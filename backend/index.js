@@ -39,10 +39,10 @@ app.use(
 );
 
 app.use(function(req, res, next) {
-  res.setHeader(
-    "Access-Control-Allow-Origin",
-    `${config.frontendAddress}:${config.frontendPort}`
-  );
+  // res.setHeader(
+  //   "Access-Control-Allow-Origin",
+  //   `${config.frontendAddress}:${config.frontendPort}`
+  // );
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader(
     "Access-Control-Allow-Methods",
@@ -72,11 +72,13 @@ var userLoginRouter = require("./Controllers/login");
 var registerRouter = require("./Controllers/register");
 var profileRouter = require("./Controllers/profile");
 var analysisRouter = require("./Controllers/analysis");
+var patientDashboardRouter = require("./Controllers/patientDashboard");
 
 app.use("/login", userLoginRouter);
 app.use("/register", registerRouter);
 app.use("/profile", profileRouter);
 app.use("/analysis", analysisRouter);
+app.use("/patientDashboard", patientDashboardRouter);
 
 app.listen(port, () => {
   console.log(`ECG backend listening on port ${port}!`);

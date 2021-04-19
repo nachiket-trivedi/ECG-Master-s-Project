@@ -68,7 +68,7 @@ const ECGReports = (props) => {
   };
 
   return (
-    <div className={styles.whiteBox}>
+    <div className={styles.whiteResultBox}>
       <h2 className={styles.headingText}>ECG Reports</h2>
       <hr />
       <br />

@@ -40,7 +40,7 @@ class Profile extends React.Component {
     }
 
     return (
-        <div className={styles.profileColorbg}>
+        <div className={styles.colorbg}>
           <br />
           <div className={styles.whiteBox}>
             <Row>

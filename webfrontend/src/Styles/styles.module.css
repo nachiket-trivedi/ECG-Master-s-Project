@@ -32,15 +32,11 @@
 }
 
 .colorbg {
-  background-color: rgb(255, 210, 210);
-}
-
-.profileColorbg {
-  background-color: rgb(255, 210, 210);
+  background-color:  rgb(241, 170, 170);
 }
 
 .adminProfileColorbg {
-  background-color: rgb(255, 210, 210);
+  background-color:  rgb(241, 170, 170);
   height: 100vh;
 }
 
@@ -80,6 +76,18 @@
   border: solid white 2ch;
   margin-left: 11%;
   padding-right: 3%;
+}
+
+.whiteResultBox {
+  background-color: white;
+  border-radius: 5px;
+  border-color: white;
+  box-sizing: border-box;
+  width: 78%;
+  border: solid white 2ch;
+  margin-left: 11%;
+  padding-right: 3%;
+  height: 60vh;
 }
 
 .infoBox {

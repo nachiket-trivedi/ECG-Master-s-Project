@@ -125,7 +125,11 @@ router.get("/ecgAgewise", async function(req, res) {
   var above60 = 0;
 
   try {
+<<<<<<< HEAD
     let query = `SELECT count(*) as count, user_id FROM ecgdb.abnormal_ecg GROUP BY user_id`;
+=======
+    let query = `SELECT count(*) as count, user_id FROM ecgdb.abnormal_ecg WHERE user_id IN (12,17) GROUP BY user_id`;
+>>>>>>> de0ef129a42ce1072783906d5f23601c7b98ce15
     con.query(query, function(err, result_count, fields) {
       if (err) {
         console.log("Unable to fetch data");
@@ -197,6 +201,9 @@ router.get("/ecgAgewise", async function(req, res) {
     throw ex;
   }
 });
+<<<<<<< HEAD
 
+=======
+>>>>>>> de0ef129a42ce1072783906d5f23601c7b98ce15
 
 module.exports = router;

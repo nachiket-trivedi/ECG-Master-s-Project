@@ -35,7 +35,9 @@ function Dashboard(props) {
           ECG for your Age-Group
         </Text>
         <WebView
-          source={{ uri: `http://localhost:3001/patientECGAgewiseDashboard?userId=${userId}` }}
+          source={{
+            uri: `http://localhost:3001/patientECGAgewiseDashboard?userId=${userId}`
+          }}
           style={styles.graphView}
         />
       </Card>
@@ -45,7 +47,7 @@ function Dashboard(props) {
         </Text>
         <WebView
           source={{
-            uri: "http://localhost:3001/patientECGCountrywiseDashboard"
+            uri: `http://localhost:3001/patientECGCountrywiseDashboard?userId=${userId}`
           }}
           style={styles.graphView}
         />

@@ -181,4 +181,88 @@ router.get("/ecgAgewise/:user", async function(req, res) {
   }
 });
 
+
+router.get("/ecgCountrywise/:user", async function(req, res) {
+  console.log("In Get Number of ECG Agewise");
+  let userId = req.params.user;
+  let con = await dbConnection();
+  var pkg;
+  let normal = 0;
+  let abnormal = 0;
+
+  try {
+    let query = `SELECT country FROM users WHERE user_id = ${userId}`;
+    con.query(query, function(err, result_country, fields) {
+      if (err) {
+        console.log("Unable to fetch data");
+        pkg = {
+          errorType: "Error in fetching abnormal"
+        };
+        console.log(pkg);
+        res.status(205).send(JSON.stringify(pkg));
+        res.end("Unable to fetch data!");
+      } else {
+        console.log(result_country[0].country)
+        let country = result_country[0].country
+        let query2 = `SELECT user_id FROM ecgdb.users WHERE country ='${country}'`;
+
+        con.query(query2, function(err, result, fields) {
+          if (err) {
+            console.log("Unable to fetch data");
+            pkg = {
+              errorType: "Error in fetching abnormal"
+            };
+            console.log(pkg);
+            res.status(205).send(JSON.stringify(pkg));
+            res.end("Unable to fetch data!");
+          } else {
+            var arrayOfUsers = "(";
+
+            for (var i = 0; i < result.length; i++) {
+              var userId = result[i].user_id;
+              console.log(userId);
+              if (i != 0) {
+                arrayOfUsers = arrayOfUsers.concat(",");
+              }
+              arrayOfUsers = arrayOfUsers.concat(userId);
+            }
+            arrayOfUsers = arrayOfUsers.concat(")");
+
+            console.log("Hey Look Here:", arrayOfUsers);
+            
+            let query3 = `SELECT count(*) as count FROM abnormal_ecg WHERE user_id IN ${arrayOfUsers}`;
+            let query4 = `SELECT count(*) as count FROM normal_ecg WHERE user_id IN ${arrayOfUsers}`;
+
+            con.query(query3, function(err, result_abnormal_count, fields) {
+              if (err) {
+                abnormal = 0;
+              } else {
+                console.log(" AbNormal: ", result_abnormal_count[0].count);
+                abnormal += result_abnormal_count[0].count;
+                con.query(query4, function(err, result_normal_count, fields) {
+                  if (err) {
+                    normal = 0;
+                  } else {
+                    console.log(" Normal: ", result_normal_count[0].count);
+                    normal += result_normal_count[0].count;
+                  }
+                  pkg = {
+                    abnormal: Math.ceil(abnormal/3),
+                    normal: Math.ceil(normal/3)
+                  };
+                  res.status(200).send(JSON.stringify(pkg));
+                  res.end("Successfully Fetched");
+                });
+              }
+            });
+          }
+        });
+      }
+    });
+  } catch (ex) {
+    console.log(ex);
+    throw ex;
+  }
+});
+
 module.exports = router;

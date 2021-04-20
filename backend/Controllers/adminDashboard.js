@@ -377,6 +377,12 @@ router.get("/ecgCountrywise", async function(req, res) {
           } else {
             console.log(result_users);
             let countMap = new Map();
+           
+            //Base Data
+            countryMap.set("United States",1007);
+            countryMap.set( "India",756);
+            countryMap.set("Japan",209);
+            countryMap.set("France",450);
 
             for (var i = 0; i < result_count.length; i++) {
               countMap.set(result_count[i].user_id, result_count[i].count);

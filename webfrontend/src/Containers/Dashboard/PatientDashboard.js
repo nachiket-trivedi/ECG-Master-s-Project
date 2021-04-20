@@ -24,10 +24,10 @@ class PatientDashboard extends Component {
       return <Redirect to="/completeMedicalProfile" />;
     }
 
-    if ( localStorage.getItem("role") == "admin") {
-        return <Redirect to="/" />;
-      }
-  
+    if (localStorage.getItem("role") == "admin") {
+      return <Redirect to="/" />;
+    }
+
     return (
       <div className={styles.colorbg}>
         <br />

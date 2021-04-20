@@ -163,8 +163,8 @@ router.get("/ecgAgewise/:user", async function(req, res) {
                     normal += result_normal_count[0].count;
                   }
                   pkg = {
-                    abnormal: Math.ceil(abnormal/3),
-                    normal: Math.ceil(normal/3)
+                    abnormal: Math.ceil(abnormal / 3),
+                    normal: Math.ceil(normal / 3)
                   };
                   res.status(200).send(JSON.stringify(pkg));
                   res.end("Successfully Fetched");
@@ -181,9 +181,8 @@ router.get("/ecgAgewise/:user", async function(req, res) {
   }
 });
 
-
 router.get("/ecgCountrywise/:user", async function(req, res) {
-  console.log("In Get Number of ECG Agewise");
+  console.log("In Get Number of ECG Countrywise");
   let userId = req.params.user;
   let con = await dbConnection();
   var pkg;
@@ -202,8 +201,8 @@ router.get("/ecgCountrywise/:user", async function(req, res) {
         res.status(205).send(JSON.stringify(pkg));
         res.end("Unable to fetch data!");
       } else {
-        console.log(result_country[0].country)
-        let country = result_country[0].country
+        console.log(result_country[0].country);
+        let country = result_country[0].country;
         let query2 = `SELECT user_id FROM ecgdb.users WHERE country ='${country}'`;
 
         con.query(query2, function(err, result, fields) {
@@ -229,7 +228,7 @@ router.get("/ecgCountrywise/:user", async function(req, res) {
             arrayOfUsers = arrayOfUsers.concat(")");
 
             console.log("Hey Look Here:", arrayOfUsers);
-            
+
             let query3 = `SELECT count(*) as count FROM abnormal_ecg WHERE user_id IN ${arrayOfUsers}`;
             let query4 = `SELECT count(*) as count FROM normal_ecg WHERE user_id IN ${arrayOfUsers}`;
 
@@ -247,14 +246,87 @@ router.get("/ecgCountrywise/:user", async function(req, res) {
                     normal += result_normal_count[0].count;
                   }
                   pkg = {
-                    abnormal: Math.ceil(abnormal/3),
-                    normal: Math.ceil(normal/3)
+                    abnormal: Math.ceil(abnormal / 3),
+                    normal: Math.ceil(normal / 3)
                   };
                   res.status(200).send(JSON.stringify(pkg));
                   res.end("Successfully Fetched");
                 });
               }
             });
+          }
+        });
+      }
+    });
+  } catch (ex) {
+    console.log(ex);
+    throw ex;
+  }
+});
+
+router.get("/ecgProfile/:user", async function(req, res) {
+  console.log("In Profile ECG data");
+  let userId = req.params.user;
+  let con = await dbConnection();
+  var pkg;
+  let count = 0;
+  let date = "";
+
+  try {
+    let query = `SELECT class, timestamp FROM abnormal_ecg WHERE user_id = ${userId} ORDER BY timestamp ASC;`;
+    con.query(query, function(err, result_abnormal, fields) {
+      if (err) {
+        console.log("Unable to fetch data");
+        pkg = {
+          errorType: "Error in fetching abnormal"
+        };
+        console.log(pkg);
+        res.status(205).send(JSON.stringify(pkg));
+        res.end("Unable to fetch data!");
+      } else {
+        let query2 = `SELECT timestamp FROM normal_ecg WHERE user_id = ${userId} ORDER BY timestamp ASC;`;
+        con.query(query2, function(err, result_normal, fields) {
+          console.log(result_abnormal);
+
+          count = result_abnormal.length / 3;
+          date = result_abnormal[
+            result_abnormal.length - 1
+          ].timestamp.toISOString();
+          if (err) {
+            console.log(err);
+            pkg = {
+              count: Math.ceil(count),
+              date: date,
+              errorType: "Error in fetching normal"
+            };
+            console.log(pkg);
+            res.status(205).send(JSON.stringify(pkg));
+            res.end("Fetched Data with some error!");
+          } else {
+            console.log(result_normal);
+            count = (result_normal.length + result_abnormal.length) / 3;
+
+            if (result_normal.length > 1) {
+              date =
+                result_abnormal[
+                  result_abnormal.length - 1
+                ].timestamp.toISOString() >
+                result_normal[result_normal.length - 1].timestamp.toISOString()
+                  ? result_abnormal[
+                      result_abnormal.length - 1
+                    ].timestamp.toISOString()
+                  : result_normal[
+                      result_normal.length - 1
+                    ].timestamp.toISOString();
+            }
+
+            pkg = {
+              count: Math.ceil(count),
+              date: date,
+              errorType: "Error in fetching normal"
+            };
+            res.status(200).send(JSON.stringify(pkg));
+            res.end("Successfully Fetched");
           }
         });
       }

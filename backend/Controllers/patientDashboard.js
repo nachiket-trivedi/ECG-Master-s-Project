@@ -3,11 +3,8 @@ var router = express.Router();
 var jwt = require("jsonwebtoken");
 var config = require("./../Config/settings");
 const dbConnection = require("./../Database/sqlDb");
-const bcrypt = require("bcryptjs");
-const saltRounds = 10;
 var passport = require("passport");
 var requireAuth = passport.authenticate("jwt", { session: false });
-var moment = require("moment");
 
 require("../Config/passport")(passport);
 

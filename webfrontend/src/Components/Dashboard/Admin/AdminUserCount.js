@@ -4,38 +4,72 @@ import { Redirect } from "react-router";
 import styles from "../../../Styles/styles.module.css";
 import { Row, Col } from "react-bootstrap";
 
+import axios from "axios";
+import { backendIp, backendPort } from "../../../config";
+
+const hostAddress = `${backendIp}:${backendPort}`;
+const config = {
+  headers: {
+    Authorization: "Bearer " + localStorage.getItem("jwtToken"),
+    "Content-Type": "application/json"
+  }
+};
+
 //https://codesandbox.io/s/react-chartjs-2-line-chart-example-5z3ss?from-embed
 class AdminUserCount extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: {
-        labels: [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dec"
-        ],
-        datasets: [
-          {
-            label: "Normal",
-            data: [5, 2, 3, 3, 4, 2, 2, 3, 1, 5, 3, 2],
-            fill: false,
-            // backgroundColor: "rgba(75,192,192,0.2)",
-            borderColor: "rgba(75,192,192,1)"
-          }
-        ]
-      }
+      base: [5, 2, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0],
+      data: ""
     };
   }
+  
+  componentDidMount = () => {  
+      axios.defaults.withCredentials = true;
+      axios.get(
+          hostAddress + "/adminDashboard/userCount",
+          config
+        )
+        .then(response => {
+          console.log(response);
+          var userCount = [];
+          for(var i=0;i<12;i++){
+            userCount[i]= this.state.base[i] + response.data.userCount[i];
+          }
+
+
+          var data = {
+            labels: [
+              "Jan",
+              "Feb",
+              "Mar",
+              "Apr",
+              "May",
+              "Jun",
+              "Jul",
+              "Aug",
+              "Sep",
+              "Oct",
+              "Nov",
+              "Dec"
+            ],
+            datasets: [
+              {
+                label: "Users",
+                data: userCount,
+                fill: false,
+                // backgroundColor: "rgba(75,192,192,0.2)",
+                borderColor: "rgba(75,192,192,1)"
+              }
+            ]
+          }
+          this.setState({
+            data: data
+          });
+        });
+  };
+  
 
   render() {
     return (

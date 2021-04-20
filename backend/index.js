@@ -73,12 +73,14 @@ var registerRouter = require("./Controllers/register");
 var profileRouter = require("./Controllers/profile");
 var analysisRouter = require("./Controllers/analysis");
 var patientDashboardRouter = require("./Controllers/patientDashboard");
+var adminDashboardRouter = require("./Controllers/adminDashboard");
 
 app.use("/login", userLoginRouter);
 app.use("/register", registerRouter);
 app.use("/profile", profileRouter);
 app.use("/analysis", analysisRouter);
 app.use("/patientDashboard", patientDashboardRouter);
+app.use("/adminDashboard", adminDashboardRouter);
 
 app.listen(port, () => {
   console.log(`ECG backend listening on port ${port}!`);

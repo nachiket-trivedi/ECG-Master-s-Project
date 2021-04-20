@@ -30,9 +30,6 @@ class AdminAbnormalAgewise extends React.Component {
       .get(hostAddress + "/adminDashboard/ecgAgewise", config)
       .then(response => {
         console.log(response);
-        var normal = this.state.baseData[0] + response.data.normal;
-        var abnormal = this.state.baseData[1] + response.data.abnormal;
-
         var data = {
           labels: ["0-18", "19-30", "30-40", "40-50", "50-60", "Above 60"],
           datasets: [

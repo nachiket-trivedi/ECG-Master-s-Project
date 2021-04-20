@@ -199,84 +199,149 @@ router.get("/ecgAgewise", async function(req, res) {
 });
 
 router.get("/ecgBMIwise", async function(req, res) {
-    console.log("In Get BMIwise Abnormal ECG- Admin");
-  
-    let con = await dbConnection();
-    var pkg;
-    var below18 = 0;
-    var below25 = 0;
-    var below30 = 0;
-    var below35 = 0;
-    var below40 = 0;
-    var above40 = 0;
-  
-    try {
-      let query = `SELECT count(*) as count, user_id FROM ecgdb.abnormal_ecg GROUP BY user_id`;
-      con.query(query, function(err, result_count, fields) {
-        if (err) {
-          console.log("Unable to fetch data");
-          pkg = {
-            errorType: "Error in fetching data"
-          };
-          console.log(pkg);
-          res.status(205).send(JSON.stringify(pkg));
-          res.end("Unable to fetch data!");
-        } else {
-          console.log(result_count);
-          let query2 = `SELECT user_id, BMI FROM ecgdb.medical_profiles`;
-          con.query(query2, function(err, result_users, fields) {
-            if (err) {
-              console.log("Unable to fetch data");
-              pkg = {
-                errorType: "Error in fetching data"
-              };
-              console.log(pkg);
-              res.status(205).send(JSON.stringify(pkg));
-              res.end("Unable to fetch data!");
-            } else {
-              console.log(result_users);
-              let countMap = new Map();
-  
-              for (var i = 0; i < result_count.length; i++) {
-                countMap.set(result_count[i].user_id, result_count[i].count);
-              }
-  
-              for (var i = 0; i < result_users.length; i++) {
-                var bmi = result_users[i].BMI;
-                console.log(bmi);
-        
-                if (bmi <= 18.5) {
-                  below18 += countMap.get(result_users[i].user_id);
-                } else if (bmi > 18.5 && bmi <= 24.9) {
-                  below25 += countMap.get(result_users[i].user_id);
-                } else if (bmi >= 25 && bmi <= 29.9) {
-                  below30 += countMap.get(result_users[i].user_id);
-                } else if (bmi >= 30 && bmi <= 34.9) {
-                  below35 += countMap.get(result_users[i].user_id);
-                } else if (bmi >= 35 && bmi <= 39.9) {
-                  below40 += countMap.get(result_users[i].user_id);
-                } else {
-                  above40 += countMap.get(result_users[i].user_id);
-                }
-              }
-              pkg = {
-                below18: Math.ceil(below18 / 3),
-                below25: Math.ceil(below25 / 3),
-                below30: Math.ceil(below30 / 3),
-                below35: Math.ceil(below35 / 3),
-                below40: Math.ceil(below40 / 3),
-                above40: Math.ceil(above40 / 3)
-              };
-              res.status(200).send(JSON.stringify(pkg));
-              res.end("Successfully Fetched");
+  console.log("In Get BMIwise Abnormal ECG- Admin");
+
+  let con = await dbConnection();
+  var pkg;
+  var below18 = 0;
+  var below25 = 0;
+  var below30 = 0;
+  var below35 = 0;
+  var below40 = 0;
+  var above40 = 0;
+
+  try {
+    let query = `SELECT count(*) as count, user_id FROM ecgdb.abnormal_ecg GROUP BY user_id`;
+    con.query(query, function(err, result_count, fields) {
+      if (err) {
+        console.log("Unable to fetch data");
+        pkg = {
+          errorType: "Error in fetching data"
+        };
+        console.log(pkg);
+        res.status(205).send(JSON.stringify(pkg));
+        res.end("Unable to fetch data!");
+      } else {
+        console.log(result_count);
+        let query2 = `SELECT user_id, BMI FROM ecgdb.medical_profiles`;
+        con.query(query2, function(err, result_users, fields) {
+          if (err) {
+            console.log("Unable to fetch data");
+            pkg = {
+              errorType: "Error in fetching data"
+            };
+            console.log(pkg);
+            res.status(205).send(JSON.stringify(pkg));
+            res.end("Unable to fetch data!");
+          } else {
+            console.log(result_users);
+            let countMap = new Map();
+
+            for (var i = 0; i < result_count.length; i++) {
+              countMap.set(result_count[i].user_id, result_count[i].count);
             }
-          });
-        }
-      });
-    } catch (ex) {
-      console.log(ex);
-      throw ex;
-    }
-  });
+
+            for (var i = 0; i < result_users.length; i++) {
+              var bmi = result_users[i].BMI;
+              console.log(bmi);
+
+              if (bmi <= 18.5) {
+                below18 += countMap.get(result_users[i].user_id);
+              } else if (bmi > 18.5 && bmi <= 24.9) {
+                below25 += countMap.get(result_users[i].user_id);
+              } else if (bmi >= 25 && bmi <= 29.9) {
+                below30 += countMap.get(result_users[i].user_id);
+              } else if (bmi >= 30 && bmi <= 34.9) {
+                below35 += countMap.get(result_users[i].user_id);
+              } else if (bmi >= 35 && bmi <= 39.9) {
+                below40 += countMap.get(result_users[i].user_id);
+              } else {
+                above40 += countMap.get(result_users[i].user_id);
+              }
+            }
+            pkg = {
+              below18: Math.ceil(below18 / 3),
+              below25: Math.ceil(below25 / 3),
+              below30: Math.ceil(below30 / 3),
+              below35: Math.ceil(below35 / 3),
+              below40: Math.ceil(below40 / 3),
+              above40: Math.ceil(above40 / 3)
+            };
+            res.status(200).send(JSON.stringify(pkg));
+            res.end("Successfully Fetched");
+          }
+        });
+      }
+    });
+  } catch (ex) {
+    console.log(ex);
+    throw ex;
+  }
+});
+
+router.get("/ecgGenderwise", async function(req, res) {
+  console.log("In Get Genderwise Abnormal ECG- Admin");
+
+  let con = await dbConnection();
+  var pkg;
+  var male = 0;
+  var female = 0;
+
+  try {
+    let query = `SELECT count(*) as count, user_id FROM ecgdb.abnormal_ecg GROUP BY user_id`;
+    con.query(query, function(err, result_count, fields) {
+      if (err) {
+        console.log("Unable to fetch data");
+        pkg = {
+          errorType: "Error in fetching data"
+        };
+        console.log(pkg);
+        res.status(205).send(JSON.stringify(pkg));
+        res.end("Unable to fetch data!");
+      } else {
+        console.log(result_count);
+        let query2 = `SELECT user_id, gender FROM ecgdb.medical_profiles`;
+        con.query(query2, function(err, result_users, fields) {
+          if (err) {
+            console.log("Unable to fetch data");
+            pkg = {
+              errorType: "Error in fetching data"
+            };
+            console.log(pkg);
+            res.status(205).send(JSON.stringify(pkg));
+            res.end("Unable to fetch data!");
+          } else {
+            console.log(result_users);
+            let countMap = new Map();
+
+            for (var i = 0; i < result_count.length; i++) {
+              countMap.set(result_count[i].user_id, result_count[i].count);
+            }
+
+            for (var i = 0; i < result_users.length; i++) {
+              var gender = result_users[i].gender;
+              console.log(gender);
+
+              if (gender == "Female") {
+                female += countMap.get(result_users[i].user_id);
+              } else {
+                male += countMap.get(result_users[i].user_id);
+              }
+            }
+            pkg = {
+              male: Math.ceil(male / 3),
+              female: Math.ceil(female / 3)
+            };
+            res.status(200).send(JSON.stringify(pkg));
+            res.end("Successfully Fetched");
+          }
+        });
+      }
+    });
+  } catch (ex) {
+    console.log(ex);
+    throw ex;
+  }
+});
 
 module.exports = router;

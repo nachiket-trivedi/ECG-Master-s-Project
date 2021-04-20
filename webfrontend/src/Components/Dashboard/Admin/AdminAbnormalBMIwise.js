@@ -31,8 +31,6 @@ class AdminAbnormalBMIwise extends React.Component {
       .get(hostAddress + "/adminDashboard/ecgBMIwise", config)
       .then(response => {
         console.log(response);
-        var normal = this.state.baseData[0] + response.data.normal;
-        var abnormal = this.state.baseData[1] + response.data.abnormal;
 
         var data = {
           labels: [

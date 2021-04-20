@@ -82,8 +82,8 @@ class PatientECGCount extends React.Component {
           });
         });
     }
-    //backend call to get details for object user
   };
+  
   render() {
     // if (
     //   localStorage.getItem("medicalFlag") == 0 ||

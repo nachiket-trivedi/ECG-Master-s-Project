@@ -33,10 +33,9 @@ router.get("/ecgRecords/:user", async function(req, res) {
       } else {
         let query2 = `SELECT timestamp FROM normal_ecg WHERE user_id = ${userId}`;
         con.query(query2, function(err, result_normal, fields) {
-
           for (var i = 0; i < result_abnormal.length; i++) {
             var temp = result_abnormal[i].timestamp.toISOString().split("-");
-            console.log(temp[1])
+            console.log(temp[1]);
             abnormal[temp[1] - 1]++;
           }
           abnormal = abnormal.map(item => {
@@ -59,8 +58,8 @@ router.get("/ecgRecords/:user", async function(req, res) {
               normal[temp[1] - 1]++;
             }
             normal = normal.map(item => {
-                return item / 3;
-              });
+              return item / 3;
+            });
             pkg = {
               abnormal: abnormal,
               normal: normal,
@@ -68,6 +67,110 @@ router.get("/ecgRecords/:user", async function(req, res) {
             };
             res.status(200).send(JSON.stringify(pkg));
             res.end("Successfully Fetched");
+          }
+        });
+      }
+    });
+  } catch (ex) {
+    console.log(ex);
+    throw ex;
+  }
+});
+
+router.get("/ecgAgewise/:user", async function(req, res) {
+  console.log("In Get Number of ECG Agewise");
+  let userId = req.params.user;
+  let con = await dbConnection();
+  var pkg;
+  let normal = 0;
+  let abnormal = 0;
+
+  try {
+    let query = `SELECT DOB FROM medical_profiles WHERE user_id = ${userId}`;
+    con.query(query, function(err, result_dob, fields) {
+      if (err) {
+        console.log("Unable to fetch data");
+        pkg = {
+          errorType: "Error in fetching abnormal"
+        };
+        console.log(pkg);
+        res.status(205).send(JSON.stringify(pkg));
+        res.end("Unable to fetch data!");
+      } else {
+        var dateArray = result_dob[0].DOB.toISOString().split("-");
+        console.log(dateArray[0]);
+        var age = new Date().getFullYear() - dateArray[0];
+
+        var month = new Date();
+        if (month.getMonth() < dateArray[1] - 1) {
+          age -= 1;
+        }
+
+        let query2 = "";
+
+        console.log(age);
+        if (age > 0 && age < 19) {
+          query2 = `SELECT user_id FROM ecgdb.medical_profiles WHERE DOB BETWEEN CURDATE() - INTERVAL 19 YEAR AND CURDATE() - INTERVAL 1 YEAR `;
+        } else if (age >= 19 && age <= 30) {
+          query2 = `SELECT user_id FROM ecgdb.medical_profiles WHERE DOB BETWEEN CURDATE() - INTERVAL 30 YEAR AND CURDATE() - INTERVAL 19 YEAR `;
+        } else if (age > 30 && age <= 40) {
+          query2 = `SELECT user_id FROM ecgdb.medical_profiles WHERE DOB BETWEEN CURDATE() - INTERVAL 40 YEAR AND CURDATE() - INTERVAL 30 YEAR `;
+        } else if (age > 40 && age <= 50) {
+          query2 = `SELECT user_id FROM ecgdb.medical_profiles WHERE DOB BETWEEN CURDATE() - INTERVAL 50 YEAR AND CURDATE() - INTERVAL 40 YEAR`;
+        } else if (age > 50 && age <= 60) {
+          query2 = `SELECT user_id FROM ecgdb.medical_profiles WHERE DOB BETWEEN CURDATE() - INTERVAL 60 YEAR AND CURDATE() - INTERVAL 50 YEAR `;
+        } else {
+          query2 = `SELECT user_id FROM ecgdb.medical_profiles WHERE DOB BETWEEN CURDATE() - INTERVAL 130 YEAR AND CURDATE() - INTERVAL 60 YEAR`;
+        }
+
+        con.query(query2, function(err, result, fields) {
+          if (err) {
+            console.log("Unable to fetch data");
+            pkg = {
+              errorType: "Error in fetching abnormal"
+            };
+            console.log(pkg);
+            res.status(205).send(JSON.stringify(pkg));
+            res.end("Unable to fetch data!");
+          } else {
+            var arrayOfUsers = "(";
+
+            for (var i = 0; i < result.length; i++) {
+              var userId = result[i].user_id;
+              console.log(userId);
+              if (i != 0) {
+                arrayOfUsers = arrayOfUsers.concat(",");
+              }
+              arrayOfUsers = arrayOfUsers.concat(userId);
+            }
+
+            arrayOfUsers = arrayOfUsers.concat(")");
+            console.log("Hey Look Here:", arrayOfUsers);
+            let query3 = `SELECT count(*) as count FROM abnormal_ecg WHERE user_id IN ${arrayOfUsers}`;
+            let query4 = `SELECT count(*) as count FROM normal_ecg WHERE user_id IN ${arrayOfUsers}`;
+
+            con.query(query3, function(err, result_abnormal_count, fields) {
+              if (err) {
+                abnormal = 0;
+              } else {
+                console.log(" AbNormal: ", result_abnormal_count[0].count);
+                abnormal += result_abnormal_count[0].count;
+                con.query(query4, function(err, result_normal_count, fields) {
+                  if (err) {
+                    normal = 0;
+                  } else {
+                    console.log(" Normal: ", result_normal_count[0].count);
+                    normal += result_normal_count[0].count;
+                  }
+                  pkg = {
+                    abnormal: Math.ceil(abnormal/3),
+                    normal: Math.ceil(normal/3)
+                  };
+                  res.status(200).send(JSON.stringify(pkg));
+                  res.end("Successfully Fetched");
+                });
+              }
+            });
           }
         });
       }

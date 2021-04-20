@@ -24,7 +24,9 @@ function Dashboard(props) {
           Monthly ECG Uploads
         </Text>
         <WebView
-          source={{ uri: `http://localhost:3001/patientECGCountDashboard?userId=${userId}` }}
+          source={{
+            uri: `http://localhost:3001/patientECGCountDashboard?userId=${userId}`
+          }}
           style={styles.graphView}
         />
       </Card>
@@ -33,7 +35,7 @@ function Dashboard(props) {
           ECG for your Age-Group
         </Text>
         <WebView
-          source={{ uri: "http://localhost:3001/patientECGAgewiseDashboard" }}
+          source={{ uri: `http://localhost:3001/patientECGAgewiseDashboard?userId=${userId}` }}
           style={styles.graphView}
         />
       </Card>
@@ -59,7 +61,7 @@ const styles = StyleSheet.create({
   chartCard: {
     marginHorizontal: 10,
     marginTop: 10,
-    height: Math.max(Dimensions.get("screen").height/3 , 250),
+    height: Math.max(Dimensions.get("screen").height / 3, 250),
     overflow: "hidden"
   },
   graphView: {

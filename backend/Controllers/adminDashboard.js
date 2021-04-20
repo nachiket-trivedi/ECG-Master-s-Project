@@ -344,4 +344,81 @@ router.get("/ecgGenderwise", async function(req, res) {
   }
 });
 
+router.get("/ecgCountrywise", async function(req, res) {
+  console.log("In Get Countrywise Abnormal ECG- Admin");
+
+  let con = await dbConnection();
+  var pkg;
+  var countryMap = new Map();
+
+  try {
+    let query = `SELECT count(*) as count, user_id FROM ecgdb.abnormal_ecg GROUP BY user_id`;
+    con.query(query, function(err, result_count, fields) {
+      if (err) {
+        console.log("Unable to fetch data");
+        pkg = {
+          errorType: "Error in fetching data"
+        };
+        console.log(pkg);
+        res.status(205).send(JSON.stringify(pkg));
+        res.end("Unable to fetch data!");
+      } else {
+        console.log(result_count);
+        let query2 = `SELECT user_id,country FROM ecgdb.users`;
+        con.query(query2, function(err, result_users, fields) {
+          if (err) {
+            console.log("Unable to fetch data");
+            pkg = {
+              errorType: "Error in fetching data"
+            };
+            console.log(pkg);
+            res.status(205).send(JSON.stringify(pkg));
+            res.end("Unable to fetch data!");
+          } else {
+            console.log(result_users);
+            let countMap = new Map();
+
+            for (var i = 0; i < result_count.length; i++) {
+              countMap.set(result_count[i].user_id, result_count[i].count);
+            }
+
+            for (var i = 0; i < result_users.length; i++) {
+              var country = result_users[i].country;
+              console.log(country);
+              var temp = countryMap.has(country) ? countryMap.get(country) : 0;
+              console.log(temp);
+              console.log(countMap.get(result_users[i].user_id));
+              var tempCount = countMap.has(result_users[i].user_id)
+                ? countMap.get(result_users[i].user_id)
+                : 0;
+              countryMap.set(country, temp + tempCount);
+            }
+
+            var labels = [];
+            var values = [];
+            var counter = 0;
+            console.log(countryMap);
+            countryMap.forEach(function(value, key) {
+              labels[counter] = key;
+              values[counter] = Math.ceil(value / 3);
+              counter++;
+            });
+
+            pkg = {
+              labels: labels,
+              values: values
+            };
+
+            res.status(200).send(JSON.stringify(pkg));
+            res.end("Successfully Fetched");
+          }
+        });
+      }
+    });
+  } catch (ex) {
+    console.log(ex);
+    throw ex;
+  }
+});
+
 module.exports = router;

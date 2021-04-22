@@ -12,7 +12,6 @@ import colors from "../constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
 import * as profileActions from "../store/actions/profile";
-import { useFocusEffect } from "@react-navigation/native";
 import Card from "../components/Card";
 
 function MedicalProfileScreen(props) {

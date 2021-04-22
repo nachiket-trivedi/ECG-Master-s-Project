@@ -1,21 +1,12 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useLocation } from "react-router-dom";
-import Dropzone from "react-dropzone";
-import csvToJson from "convert-csv-to-json";
-import { Container, Form, Button, Row, Col, Card } from "react-bootstrap";
 import axios from "axios";
-import { Redirect } from "react-router";
 import styles from "../../styles/styles.module.css";
 import { backendIp, backendPort } from "../../config";
 
 const hostAddress = `${backendIp}:${backendPort}`;
-const config = {
-  headers: {
-    Authorization: "Bearer " + localStorage.getItem("jwtToken"),
-    "Content-Type": "application/json"
-  }
-};
+
 const baseStyle = {
   flex: 1,
   display: "flex",

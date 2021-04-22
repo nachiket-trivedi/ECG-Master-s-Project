@@ -1,6 +1,5 @@
 import React from "react";
-import { Line, Bar } from "react-chartjs-2";
-import { Redirect } from "react-router";
+import { Bar } from "react-chartjs-2";
 import axios from "axios";
 import styles from "../../styles/styles.module.css";
 import { Row, Col } from "react-bootstrap";

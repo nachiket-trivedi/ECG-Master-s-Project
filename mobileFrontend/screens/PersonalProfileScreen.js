@@ -5,14 +5,12 @@ import {
   Text,
   Image,
   ScrollView,
-  Dimensions,
-  ActivityIndicator
+  Dimensions
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import * as profileActions from "../store/actions/profile";
 import * as authActions from "../store/actions/authentication";
 import colors from "../constants/colors";
-
 import MainButton from "../components/MainButton";
 import Card from "../components/Card";
 

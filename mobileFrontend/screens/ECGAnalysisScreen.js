@@ -1,9 +1,11 @@
 import React from "react";
-import {ScrollView, StyleSheet, Text, Dimensions, View } from "react-native";
+import {ScrollView, StyleSheet} from "react-native";
 import { WebView } from "react-native-webview";
 import Card from "../components/Card";
-import colors from "../constants/colors";
 import { useSelector } from "react-redux";
+
+import {webviewAddress, webviewPort} from '../config.js'
+const webviewURL = `${webviewAddress}:${webviewPort}`;
 
 function ECGAnalysisScreen(props) {
   const userId = useSelector(state => {
@@ -20,7 +22,7 @@ function ECGAnalysisScreen(props) {
         {/* <Text style={styles.headingTitle} numberOfLines={2}>
           Upload ECG Reports to get quick analysis
         </Text> */}
-        <WebView source={{ uri: `http://localhost:3001/analysis?userId=${userId}` }} scrollEnabled="false" />
+        <WebView source={{ uri: `http://${webviewURL}/analysis?userId=${userId}` }} scrollEnabled="false" />
       </Card>
     </ScrollView>
   );

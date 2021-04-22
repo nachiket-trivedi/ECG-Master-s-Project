@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { Container, Col, Row } from "react-bootstrap";
-import { Redirect } from "react-router";
 import styles from "../../styles/styles.module.css";
 import UploadECG from "./UploadECG";
 import ECGReports from "./ECGReports";

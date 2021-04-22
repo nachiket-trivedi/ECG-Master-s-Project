@@ -30,7 +30,6 @@ router.get("/userCount", async function(req, res) {
       } else {
         for (var i = 0; i < result.length; i++) {
           var temp = result[i].created_at.toISOString().split("-");
-          console.log(temp[1]);
           monthly_count[temp[1] - 1]++;
         }
         pkg = {
@@ -70,7 +69,6 @@ router.get("/ecgRecords", async function(req, res) {
         con.query(query2, function(err, result_normal, fields) {
           for (var i = 0; i < result_abnormal.length; i++) {
             var temp = result_abnormal[i].timestamp.toISOString().split("-");
-            console.log(temp[1]);
             abnormal[temp[1] - 1]++;
           }
           abnormal = abnormal.map(item => {
@@ -157,7 +155,6 @@ router.get("/ecgAgewise", async function(req, res) {
 
             for (var i = 0; i < result_users.length; i++) {
               var dateArray = result_users[i].DOB.toISOString().split("-");
-              console.log(dateArray[0]);
               var age = new Date().getFullYear() - dateArray[0];
               var month = new Date();
               if (month.getMonth() < dateArray[1] - 1) {
@@ -243,8 +240,6 @@ router.get("/ecgBMIwise", async function(req, res) {
 
             for (var i = 0; i < result_users.length; i++) {
               var bmi = result_users[i].BMI;
-              console.log(bmi);
-
               if (bmi <= 18.5) {
                 below18 += countMap.get(result_users[i].user_id);
               } else if (bmi > 18.5 && bmi <= 24.9) {
@@ -320,8 +315,6 @@ router.get("/ecgGenderwise", async function(req, res) {
 
             for (var i = 0; i < result_users.length; i++) {
               var gender = result_users[i].gender;
-              console.log(gender);
-
               if (gender == "Female") {
                 female += countMap.get(result_users[i].user_id);
               } else {
@@ -390,10 +383,7 @@ router.get("/ecgCountrywise", async function(req, res) {
 
             for (var i = 0; i < result_users.length; i++) {
               var country = result_users[i].country;
-              console.log(country);
               var temp = countryMap.has(country) ? countryMap.get(country) : 0;
-              console.log(temp);
-              console.log(countMap.get(result_users[i].user_id));
               var tempCount = countMap.has(result_users[i].user_id)
                 ? countMap.get(result_users[i].user_id)
                 : 0;

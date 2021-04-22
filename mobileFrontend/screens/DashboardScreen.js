@@ -1,16 +1,16 @@
 import React from "react";
 import {
-  View,
   StyleSheet,
   Text,
   ScrollView,
-  Dimensions,
-  Web
+  Dimensions
 } from "react-native";
 import Card from "../components/Card";
-import colors from "../constants/colors";
 import { WebView } from "react-native-webview";
 import { useSelector } from "react-redux";
+
+import {webviewAddress, webviewPort} from '../config.js'
+const webviewURL = `${webviewAddress}:${webviewPort}`;
 
 function Dashboard(props) {
   const userId = useSelector(state => {
@@ -25,7 +25,7 @@ function Dashboard(props) {
         </Text>
         <WebView
           source={{
-            uri: `http://localhost:3001/patientECGCountDashboard?userId=${userId}`
+            uri: `http://${webviewURL}/patientECGCountDashboard?userId=${userId}`
           }}
           style={styles.graphView}
         />
@@ -36,7 +36,7 @@ function Dashboard(props) {
         </Text>
         <WebView
           source={{
-            uri: `http://localhost:3001/patientECGAgewiseDashboard?userId=${userId}`
+            uri: `http://${webviewURL}/patientECGAgewiseDashboard?userId=${userId}`
           }}
           style={styles.graphView}
         />
@@ -47,7 +47,7 @@ function Dashboard(props) {
         </Text>
         <WebView
           source={{
-            uri: `http://localhost:3001/patientECGCountrywiseDashboard?userId=${userId}`
+            uri: `http://${webviewURL}/patientECGCountrywiseDashboard?userId=${userId}`
           }}
           style={styles.graphView}
         />

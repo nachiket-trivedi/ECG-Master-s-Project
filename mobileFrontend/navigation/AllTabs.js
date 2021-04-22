@@ -15,7 +15,7 @@ const Tab = createBottomTabNavigator();
 const AllTabs = props => {
   return (
     <Tab.Navigator
-      initialRouteName="Dashboard"
+      initialRouteName="ECG Analysis"
       tabBarOptions={{
         activeTintColor: colors.primary
       }}

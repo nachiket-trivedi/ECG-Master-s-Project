@@ -1,8 +1,7 @@
 import React from "react";
 import { Pie } from "react-chartjs-2";
-import { Redirect } from "react-router";
 import styles from "../../styles/styles.module.css";
-import { Form, Button, Row, Col } from "react-bootstrap";
+import { Row } from "react-bootstrap";
 import axios from "axios";
 import { backendIp, backendPort } from "../../config";
 

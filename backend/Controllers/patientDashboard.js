@@ -32,7 +32,6 @@ router.get("/ecgRecords/:user", async function(req, res) {
         con.query(query2, function(err, result_normal, fields) {
           for (var i = 0; i < result_abnormal.length; i++) {
             var temp = result_abnormal[i].timestamp.toISOString().split("-");
-            console.log(temp[1]);
             abnormal[temp[1] - 1]++;
           }
           abnormal = abnormal.map(item => {
@@ -95,7 +94,6 @@ router.get("/ecgAgewise/:user", async function(req, res) {
         res.end("Unable to fetch data!");
       } else {
         var dateArray = result_dob[0].DOB.toISOString().split("-");
-        console.log(dateArray[0]);
         var age = new Date().getFullYear() - dateArray[0];
 
         var month = new Date();
@@ -104,8 +102,6 @@ router.get("/ecgAgewise/:user", async function(req, res) {
         }
 
         let query2 = "";
-
-        console.log(age);
         if (age > 0 && age < 19) {
           query2 = `SELECT user_id FROM ecgdb.medical_profiles WHERE DOB BETWEEN CURDATE() - INTERVAL 19 YEAR AND CURDATE() - INTERVAL 1 YEAR `;
         } else if (age >= 19 && age <= 30) {
@@ -134,7 +130,6 @@ router.get("/ecgAgewise/:user", async function(req, res) {
 
             for (var i = 0; i < result.length; i++) {
               var userId = result[i].user_id;
-              console.log(userId);
               if (i != 0) {
                 arrayOfUsers = arrayOfUsers.concat(",");
               }
@@ -142,7 +137,6 @@ router.get("/ecgAgewise/:user", async function(req, res) {
             }
 
             arrayOfUsers = arrayOfUsers.concat(")");
-            console.log("Hey Look Here:", arrayOfUsers);
             let query3 = `SELECT count(*) as count FROM abnormal_ecg WHERE user_id IN ${arrayOfUsers}`;
             let query4 = `SELECT count(*) as count FROM normal_ecg WHERE user_id IN ${arrayOfUsers}`;
 
@@ -216,16 +210,12 @@ router.get("/ecgCountrywise/:user", async function(req, res) {
 
             for (var i = 0; i < result.length; i++) {
               var userId = result[i].user_id;
-              console.log(userId);
               if (i != 0) {
                 arrayOfUsers = arrayOfUsers.concat(",");
               }
               arrayOfUsers = arrayOfUsers.concat(userId);
             }
             arrayOfUsers = arrayOfUsers.concat(")");
-
-            console.log("Hey Look Here:", arrayOfUsers);
-
             let query3 = `SELECT count(*) as count FROM abnormal_ecg WHERE user_id IN ${arrayOfUsers}`;
             let query4 = `SELECT count(*) as count FROM normal_ecg WHERE user_id IN ${arrayOfUsers}`;
 

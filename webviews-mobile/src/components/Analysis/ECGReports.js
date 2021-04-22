@@ -1,26 +1,11 @@
 import React, { useState, useEffect } from "react";
 import {
-  Container,
-  Form,
   Button,
-  Row,
-  Col,
   Card,
   Table
 } from "react-bootstrap";
-import axios from "axios";
-import { Redirect } from "react-router";
 import ReportChart from "./ReportChart";
 import styles from "../../styles/styles.module.css";
-import { backendIp, backendPort } from "../../config";
-
-const hostAddress = `${backendIp}:${backendPort}`;
-const config = {
-  headers: {
-    Authorization: "Bearer " + localStorage.getItem("jwtToken"),
-    "Content-Type": "application/json"
-  }
-};
 
 const ECGReports = props => {
   const [curPageIndex, setcurPageIndex] = useState(0);
